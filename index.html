@@ -26,42 +26,39 @@
         let attempts = 0;
         let isMusicPlaying = false;
         
-        // Cambia la ruta del archivo de audio para que coincida con el nombre del archivo subido
-        musicAudioSource.src = "Te-extrano.mp3";
+        // CORRECCIÓN: Usar el nombre de archivo correcto
+        musicAudioSource.src = "te_extrano.mp3";
         backgroundMusic.load();
 
         // Configuración inicial de música
         backgroundMusic.volume = 0.3;
 
-        // Control de música
-        musicControl.addEventListener('click', function() {
+        // Función para reproducir o pausar la música
+        function toggleMusic() {
             if (isMusicPlaying) {
                 backgroundMusic.pause();
+                isMusicPlaying = false;
                 musicControlIcon.classList.remove('fa-volume-up');
                 musicControlIcon.classList.add('fa-volume-mute');
             } else {
-                playBackgroundMusic();
-            }
-            isMusicPlaying = !isMusicPlaying;
-        });
-
-        function playBackgroundMusic() {
-            const playPromise = backgroundMusic.play();
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    // La reproducción se inició automáticamente
-                    isMusicPlaying = true;
-                    musicControlIcon.classList.remove('fa-volume-mute');
-                    musicControlIcon.classList.add('fa-volume-up');
-                }).catch(error => {
-                    // La reproducción automática fue bloqueada
-                    isMusicPlaying = false;
-                    musicControlIcon.classList.remove('fa-volume-up');
-                    musicControlIcon.classList.add('fa-volume-mute');
-                    alert('Tu navegador ha bloqueado la reproducción automática de música. Por favor, toca el icono de música en la esquina inferior derecha para activarla.');
-                });
+                const playPromise = backgroundMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        isMusicPlaying = true;
+                        musicControlIcon.classList.remove('fa-volume-mute');
+                        musicControlIcon.classList.add('fa-volume-up');
+                    }).catch(error => {
+                        // Reproducción automática bloqueada, no hacer nada aquí
+                        isMusicPlaying = false;
+                        musicControlIcon.classList.remove('fa-volume-up');
+                        musicControlIcon.classList.add('fa-volume-mute');
+                    });
+                }
             }
         }
+        
+        // Control de música
+        musicControl.addEventListener('click', toggleMusic);
 
         // Crear fondo romántico
         createRomanticBackground();
@@ -216,7 +213,7 @@
             createFloatingHearts();
             
             // Reproducir música al abrir la carta
-            playBackgroundMusic();
+            toggleMusic();
         }
         
         function closeLetterAnimation() {
