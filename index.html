@@ -1,1049 +1,273 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carta Romántica con Música</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Dancing Script', cursive, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const closedEnvelope = document.getElementById('closedEnvelope');
+        const letterContainer = document.getElementById('letterContainer');
+        const openLetter = document.getElementById('openLetter');
+        const closeButton = document.getElementById('closeButton');
+        const heartsContainer = document.getElementById('heartsContainer');
+        const secretButton = document.getElementById('secretButton');
+        const letterContent = document.querySelector('.letter-content');
+        const titleContainer = document.querySelector('.title-container');
+        const instruction = document.querySelector('.instruction');
+        const passwordModal = document.getElementById('passwordModal');
+        const passwordContainer = document.getElementById('passwordContainer');
+        const passwordInput = document.getElementById('passwordInput');
+        const passwordButton = document.getElementById('passwordButton');
+        const passwordError = document.getElementById('passwordError');
+        const passwordHint = document.getElementById('passwordHint');
+        const sealIcon = document.querySelector('.seal i');
+        const musicControl = document.getElementById('musicControl');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const musicControlIcon = musicControl.querySelector('i');
+        const musicAudioSource = document.querySelector('#backgroundMusic source');
 
-        body {
-            background: linear-gradient(135deg, #ffd6e7, #ffc2d1, #ffb6c1, #ff9aae, #ff85a1);
-            background-size: 400% 400%;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            padding: 20px;
-            animation: gradientBG 20s ease infinite;
-            position: relative;
-        }
-
-        /* Fondo romántico */
-        .romantic-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .heart-particle {
-            position: absolute;
-            color: rgba(255, 105, 180, 0.7);
-            font-size: 24px;
-            animation: floatUp 15s linear infinite;
-            opacity: 0;
-            z-index: 1;
-        }
-
-        .twinkle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-            z-index: 1;
-        }
-
-        .glow {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 182, 193, 0.4) 0%, rgba(255, 182, 193, 0) 70%);
-            filter: blur(20px);
-            animation: glowMove 15s infinite alternate;
-            z-index: 1;
-        }
-
-        .container {
-            text-align: center;
-            position: relative;
-            max-width: 800px;
-            width: 100%;
-            perspective: 1000px;
-            z-index: 10;
-            padding: 15px;
-        }
-
-        .title-container {
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(186, 104, 200, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-
-        .title {
-            color: #d32f2f;
-            font-size: 3rem;
-            margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            animation: pulse 3s infinite, floatTitle 8s ease-in-out infinite;
-        }
-
-        .instruction {
-            color: #5d4037;
-            font-size: 1.4rem;
-            margin-bottom: 8px;
-            font-weight: 500;
-            animation: fadeInOut 4s infinite;
-        }
-
-        /* Estilo del sobre cerrado */
-        .envelope-closed {
-            position: relative;
-            width: 280px;
-            height: 180px;
-            margin: 30px auto;
-            cursor: pointer;
-            transform-style: preserve-3d;
-            transition: transform 0.5s;
-            z-index: 20;
-        }
-
-        .envelope-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #f44336, #e91e63);
-            border-radius: 10px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .envelope-front {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #e53935, #d81b60);
-            border-radius: 10px;
-            clip-path: polygon(0 0, 100% 0, 100% 45%, 50% 70%, 0 45%);
-            transform-origin: bottom;
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
-
-        .seal {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #ffd54f, #ffc107);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 20px rgba(255, 213, 79, 0.6);
-            z-index: 2;
-            animation: sealPulse 2s infinite;
-        }
-
-        .seal i {
-            color: #d32f2f;
-            font-size: 28px;
-        }
-
-        /* Estilo de la carta abierta */
-        .letter-container {
-            position: relative;
-            width: 280px;
-            height: 0;
-            margin: 0 auto;
-            overflow: hidden;
-            transform-origin: center;
-            transition: all 1.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-        }
-
-        .letter-open {
-            display: none;
-            background: linear-gradient(to bottom, #fff9c4 0%, #fff 100%);
-            width: 100%;
-            height: 420px;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-            transform-style: preserve-3d;
-            z-index: 25;
-        }
-
-        .letter-content {
-            position: relative;
-            z-index: 2;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-
-        .message-title {
-            color: #d32f2f;
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        .message-content {
-            color: #5d4037;
-            font-size: 1.4rem;
-            line-height: 1.6;
-            text-align: left;
-            margin-bottom: 15px;
-        }
-
-        .signature {
-            text-align: right;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #d32f2f;
-            margin-top: 15px;
-        }
-
-        .letter-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.1;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d32f2f' fill-rule='evenodd'/%3E%3C/svg%3E");
-        }
-
-        /* Botón de cerrar carta */
-        .close-letter-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 35px;
-            height: 35px;
-            background: #f44336;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            z-index: 30;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-        }
-
-        .close-letter-btn:hover {
-            transform: scale(1.1);
-            background: #d32f2f;
-        }
-
-        /* Botón secreto */
-        .secret-button {
-            margin-top: 25px;
-            background: rgba(255, 255, 255, 0.3);
-            border: 2px solid #d32f2f;
-            color: #d32f2f;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.5s ease;
-            backdrop-filter: blur(5px);
-            z-index: 15;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .secret-button:hover {
-            background: rgba(211, 47, 47, 0.2);
-            transform: scale(1.05);
-        }
-
-        /* Sistema de contraseña */
-        .password-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.5s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .password-modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .password-container {
-            background: linear-gradient(135deg, #fff0f5, #ffe4e1);
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            max-width: 90%;
-            width: 450px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-            position: relative;
-            transform: scale(0.8);
-            transition: transform 0.5s ease;
-        }
-
-        .password-container.active {
-            transform: scale(1);
-        }
-
-        .password-title {
-            color: #d32f2f;
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .password-subtitle {
-            color: #5d4037;
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-            line-height: 1.4;
-        }
-
-        .password-input {
-            width: 100%;
-            padding: 12px 18px;
-            font-size: 1.3rem;
-            border: 2px solid #d32f2f;
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            margin-bottom: 20px;
-            transition: all 0.3s;
-            outline: none;
-            font-family: 'Dancing Script', cursive;
-            font-weight: bold;
-        }
-
-        .password-input:focus {
-            border-color: #ffd54f;
-            box-shadow: 0 0 15px rgba(255, 213, 79, 0.5);
-            transform: scale(1.05);
-        }
-
-        .password-button {
-            background: linear-gradient(to right, #f44336, #e91e63);
-            color: white;
-            border: none;
-            padding: 12px 35px;
-            font-size: 1.3rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .password-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .password-hint {
-            margin-top: 15px;
-            font-size: 1.1rem;
-            color: #7f8c8d;
-            font-style: italic;
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.5s ease;
-        }
-
-        .password-hint.show {
-            opacity: 1;
-            max-height: 100px;
-        }
-
-        .password-error {
-            color: #f44336;
-            font-size: 1.1rem;
-            margin-top: 15px;
-            height: 20px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .password-error.show {
-            opacity: 1;
-        }
-
-        /* Elementos decorativos */
-        .hearts-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .heart {
-            position: absolute;
-            color: #e91e63;
-            font-size: 20px;
-            opacity: 0;
-            animation: floatUp 6s linear infinite;
-        }
-
-        .flowers {
-            position: absolute;
-            font-size: 28px;
-            color: #e91e63;
-            opacity: 0.7;
-            z-index: 5;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-
-        .flower-1 { top: 10%; left: 5%; animation: float 12s infinite, rotate 20s infinite; }
-        .flower-2 { top: 20%; right: 10%; animation: float 15s infinite, rotate 25s infinite reverse; }
-        .flower-3 { bottom: 15%; left: 15%; animation: float 18s infinite, rotate 30s infinite; }
-        .flower-4 { bottom: 5%; right: 5%; animation: float 14s infinite, rotate 22s infinite reverse; }
-
-        /* Control de música */
-        .music-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 100;
-            backdrop-filter: blur(5px);
-            border: 2px solid #d32f2f;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-        }
-
-        .music-control:hover {
-            transform: scale(1.1);
-            background: rgba(211, 47, 47, 0.2);
-        }
-
-        .music-control i {
-            color: #d32f2f;
-            font-size: 24px;
-        }
-
-        /* Animaciones */
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes floatTitle {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
-        }
-
-        @keyframes sealPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); }
-            50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 25px rgba(0, 0, 0, 0.3); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(10deg); }
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-        }
-
-        @keyframes openEnvelope {
-            0% { transform: rotateX(0); }
-            100% { transform: rotateX(180deg); }
-        }
-
-        @keyframes fadeInContent {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes closeEnvelope {
-            0% { opacity: 0; transform: translateY(-20px) rotateY(180deg) scale(0.8); }
-            100% { opacity: 1; transform: translateY(0) rotateY(0) scale(1); }
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes glowMove {
-            0% { transform: translate(0, 0); }
-            25% { transform: translate(40vw, 30vh); }
-            50% { transform: translate(20vw, 60vh); }
-            75% { transform: translate(70vw, 40vh); }
-            100% { transform: translate(10vw, 20vh); }
-        }
-
-        @keyframes unlock {
-            0% { transform: rotate(0) scale(1); }
-            25% { transform: rotate(15deg) scale(1.2); }
-            50% { transform: rotate(-15deg) scale(1.3); }
-            75% { transform: rotate(5deg) scale(1.2); }
-            100% { transform: rotate(0) scale(1); }
-        }
-
-        /* Media queries para dispositivos móviles */
-        @media (max-width: 480px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .title-container {
-                padding: 12px;
-                margin-bottom: 15px;
-            }
-            
-            .title {
-                font-size: 2.5rem;
-            }
-            
-            .instruction {
-                font-size: 1.2rem;
-            }
-            
-            .envelope-closed {
-                width: 240px;
-                height: 150px;
-                margin: 20px auto;
-            }
-            
-            .seal {
-                width: 50px;
-                height: 50px;
-            }
-            
-            .seal i {
-                font-size: 24px;
-            }
-            
-            .letter-container {
-                width: 240px;
-            }
-            
-            .letter-open {
-                height: 380px;
-                padding: 20px;
-            }
-            
-            .message-title {
-                font-size: 1.8rem;
-                margin-bottom: 15px;
-            }
-            
-            .message-content {
-                font-size: 1.2rem;
-                line-height: 1.5;
-            }
-            
-            .signature {
-                font-size: 1.6rem;
-            }
-            
-            .password-container {
-                padding: 20px;
-            }
-            
-            .password-title {
-                font-size: 1.8rem;
-            }
-            
-            .password-subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .password-input {
-                font-size: 1.1rem;
-                padding: 10px 15px;
-            }
-            
-            .password-button {
-                font-size: 1.1rem;
-                padding: 10px 25px;
-            }
-            
-            .secret-button {
-                font-size: 1rem;
-                padding: 8px 16px;
-            }
-            
-            .music-control {
-                bottom: 15px;
-                right: 15px;
-                width: 45px;
-                height: 45px;
-            }
-            
-            .music-control i {
-                font-size: 20px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Elemento de audio para la melodía -->
-    <audio id="backgroundMusic" loop>
-        <source src="te_extrano.mp3" type="audio/mpeg">
-    </audio>
-    
-    <!-- Control de música -->
-    <div class="music-control" id="musicControl">
-        <i class="fas fa-volume-up"></i>
-    </div>
-    
-    <!-- Fondo romántico -->
-    <div class="romantic-bg" id="romanticBg"></div>
-    
-    <!-- Modal de contraseña -->
-    <div class="password-modal" id="passwordModal">
-        <div class="password-container" id="passwordContainer">
-            <h2 class="password-title">Tu Llave de Amor</h2>
-            <p class="password-subtitle">Ingresa nuestro código especial para abrir esta carta</p>
-            <input type="password" class="password-input" id="passwordInput" placeholder="" maxlength="4">
-            <button class="password-button" id="passwordButton">Abrir mi carta</button>
-            <p class="password-hint" id="passwordHint">Pista: Es el número que representa nuestro amor</p>
-            <p class="password-error" id="passwordError">Contraseña incorrecta, intenta de nuevo</p>
-        </div>
-    </div>
-    
-    <div class="container">
-        <div class="title-container">
-            <h1 class="title">Para Ti, Mi Princesa</h1>
-            <p class="instruction">Toca el sobre para abrir tu carta</p>
-        </div>
+        let heartsInterval;
+        const CORRECT_PASSWORD = "1517";
+        let attempts = 0;
+        let isMusicPlaying = false;
         
-        <div class="envelope-closed" id="closedEnvelope">
-            <div class="envelope-back"></div>
-            <div class="envelope-front"></div>
-            <div class="seal">
-                <i class="fas fa-lock"></i>
-            </div>
-        </div>
-        
-        <div class="letter-container" id="letterContainer">
-            <div class="letter-open" id="openLetter">
-                <div class="close-letter-btn" id="closeButton">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div class="letter-pattern"></div>
-                <div class="letter-content">
-                    <h2 class="message-title">Mi Mensaje Especial</h2>
-                    <div class="message-content">
-                        <p>Mi querida princesa,</p>
-                        <p>Desde que llegaste a mi vida, cada día es una aventura llena de amor y alegría. Tu sonrisa ilumina mis mañanas y tu amor calienta mis noches.</p>
-                        <p>Eres la persona más increíble que he conocido, mi apoyo incondicional y mi razón para ser mejor cada día.</p>
-                        <p>En esta carta quiero recordarte lo especial que eres y lo afortunado que me siento de tenerte a mi lado.</p>
-                        <p>Con todo mi amor,</p>
-                    </div>
-                    <div class="signature">Tu Príncipe</div>
-                </div>
-            </div>
-        </div>
-        
-        <button class="secret-button" id="secretButton">Toca para una sorpresa extra</button>
-    </div>
+        // Cambia la ruta del archivo de audio para que coincida con el nombre del archivo subido
+        musicAudioSource.src = "Te-extrano.mp3";
+        backgroundMusic.load();
 
-    <!-- Decoraciones -->
-    <div class="flowers flower-1">🌹</div>
-    <div class="flowers flower-2">🌸</div>
-    <div class="flowers flower-3">🌺</div>
-    <div class="flowers flower-4">💮</div>
-    
-    <div class="hearts-container" id="heartsContainer"></div>
+        // Configuración inicial de música
+        backgroundMusic.volume = 0.3;
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const closedEnvelope = document.getElementById('closedEnvelope');
-            const letterContainer = document.getElementById('letterContainer');
-            const openLetter = document.getElementById('openLetter');
-            const closeButton = document.getElementById('closeButton');
-            const heartsContainer = document.getElementById('heartsContainer');
-            const secretButton = document.getElementById('secretButton');
-            const letterContent = document.querySelector('.letter-content');
-            const titleContainer = document.querySelector('.title-container');
-            const instruction = document.querySelector('.instruction');
-            const passwordModal = document.getElementById('passwordModal');
-            const passwordContainer = document.getElementById('passwordContainer');
-            const passwordInput = document.getElementById('passwordInput');
-            const passwordButton = document.getElementById('passwordButton');
-            const passwordError = document.getElementById('passwordError');
-            const passwordHint = document.getElementById('passwordHint');
-            const sealIcon = document.querySelector('.seal i');
-            const musicControl = document.getElementById('musicControl');
-            const backgroundMusic = document.getElementById('backgroundMusic');
-            
-            let heartsInterval;
-            const CORRECT_PASSWORD = "1517";
-            let attempts = 0;
-            let isMusicPlaying = false;
-            
-            // Configuración inicial de música
-            backgroundMusic.volume = 0.3;
-            
-            // Control de música
-            musicControl.addEventListener('click', function() {
-                if (isMusicPlaying) {
-                    backgroundMusic.pause();
-                    musicControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                } else {
-                    backgroundMusic.play();
-                    musicControl.innerHTML = '<i class="fas fa-volume-up"></i>';
-                }
-                isMusicPlaying = !isMusicPlaying;
-            });
-            
-            // Crear fondo romántico
-            createRomanticBackground();
-            
-            // Abrir modal de contraseña al hacer clic en el sobre
-            closedEnvelope.addEventListener('click', function() {
-                passwordModal.classList.add('active');
-                setTimeout(() => {
-                    passwordContainer.classList.add('active');
-                    passwordInput.focus();
-                    
-                    // Resetear estado
-                    passwordInput.value = "";
-                    passwordInput.style.borderColor = "#d32f2f";
-                    passwordInput.style.boxShadow = "none";
-                    passwordButton.textContent = "Abrir mi carta";
-                    passwordButton.style.background = "linear-gradient(to right, #f44336, #e91e63)";
-                    passwordError.classList.remove('show');
-                    passwordHint.classList.remove('show');
-                }, 100);
-            });
-            
-            // Validar contraseña
-            passwordButton.addEventListener('click', validatePassword);
-            passwordInput.addEventListener('keyup', function(e) {
-                if (e.key === 'Enter') {
-                    validatePassword();
-                }
-            });
-            
-            // Cerrar la carta
-            closeButton.addEventListener('click', closeLetterAnimation);
-            
-            // Botón secreto
-            secretButton.addEventListener('click', showExtraSurprise);
-            
-            function validatePassword() {
-                const enteredPassword = passwordInput.value;
-                
-                if (enteredPassword === CORRECT_PASSWORD) {
-                    // Animación de éxito
-                    sealIcon.classList.remove('fa-lock');
-                    sealIcon.classList.add('fa-lock-open');
-                    passwordInput.style.borderColor = "#4CAF50";
-                    passwordInput.style.boxShadow = "0 0 15px rgba(76, 175, 80, 0.5)";
-                    passwordButton.textContent = "✓ Correcto";
-                    passwordButton.style.background = "linear-gradient(to right, #4CAF50, #8BC34A)";
-                    passwordError.classList.remove('show');
-                    passwordHint.classList.remove('show');
-                    
-                    // Efecto de desbloqueo
-                    sealIcon.style.animation = "unlock 1s forwards";
-                    
-                    // Cerrar modal y abrir carta después de un breve retraso
-                    setTimeout(() => {
-                        passwordModal.classList.remove('active');
-                        passwordContainer.classList.remove('active');
-                        openLetterAnimation();
-                    }, 1500);
-                } else {
-                    attempts++;
-                    
-                    // Animación de error
-                    passwordInput.style.borderColor = "#f44336";
-                    passwordInput.style.boxShadow = "0 0 15px rgba(244, 67, 54, 0.5)";
-                    passwordInput.value = "";
-                    passwordError.classList.add('show');
-                    
-                    // Mostrar pista después de 2 intentos fallidos
-                    if (attempts >= 2) {
-                        passwordHint.classList.add('show');
-                    }
-                    
-                    // Efecto de vibración
-                    passwordContainer.style.animation = "shake 0.5s";
-                    setTimeout(() => {
-                        passwordContainer.style.animation = "";
-                    }, 500);
-                }
+        // Control de música
+        musicControl.addEventListener('click', function() {
+            if (isMusicPlaying) {
+                backgroundMusic.pause();
+                musicControlIcon.classList.remove('fa-volume-up');
+                musicControlIcon.classList.add('fa-volume-mute');
+            } else {
+                playBackgroundMusic();
             }
-            
-            function createRomanticBackground() {
-                const romanticBg = document.getElementById('romanticBg');
-                
-                // Crear partículas de corazones
-                for (let i = 0; i < 30; i++) {
-                    const heart = document.createElement('div');
-                    heart.className = 'heart-particle';
-                    heart.innerHTML = '❤';
-                    heart.style.left = Math.random() * 100 + 'vw';
-                    heart.style.animationDelay = Math.random() * 5 + 's';
-                    heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
-                    romanticBg.appendChild(heart);
-                }
-                
-                // Crear luces parpadeantes
-                for (let i = 0; i < 20; i++) {
-                    const twinkle = document.createElement('div');
-                    twinkle.className = 'twinkle';
-                    twinkle.style.width = Math.random() * 5 + 2 + 'px';
-                    twinkle.style.height = twinkle.style.width;
-                    twinkle.style.left = Math.random() * 100 + 'vw';
-                    twinkle.style.top = Math.random() * 100 + 'vh';
-                    twinkle.style.animationDelay = Math.random() * 3 + 's';
-                    romanticBg.appendChild(twinkle);
-                }
-                
-                // Crear efectos de luz
-                for (let i = 0; i < 3; i++) {
-                    const glow = document.createElement('div');
-                    glow.className = 'glow';
-                    glow.style.left = Math.random() * 100 + 'vw';
-                    glow.style.top = Math.random() * 100 + 'vh';
-                    romanticBg.appendChild(glow);
-                }
-            }
-            
-            function openLetterAnimation() {
-                // Ocultar título e instrucción
-                titleContainer.style.animation = 'fadeInContent 0.8s reverse forwards';
-                instruction.style.animation = 'fadeInContent 0.8s reverse forwards';
-                
-                // Animación del sobre
-                closedEnvelope.style.transform = 'translateY(-20px) rotateY(180deg) scale(0.8)';
-                closedEnvelope.style.opacity = '0';
-                closedEnvelope.style.pointerEvents = 'none';
-                
-                // Animación de la carta
-                setTimeout(() => {
-                    letterContainer.style.height = '420px';
-                    openLetter.style.display = 'block';
-                    
-                    // Efecto de desplegar carta
-                    setTimeout(() => {
-                        openLetter.style.transform = 'rotateY(360deg)';
-                        
-                        // Mostrar contenido con efecto de escritura
-                        setTimeout(() => {
-                            letterContent.style.opacity = '1';
-                            letterContent.style.animation = 'fadeInContent 1.5s forwards';
-                            
-                            // Mostrar botón secreto
-                            setTimeout(() => {
-                                secretButton.style.opacity = '1';
-                                secretButton.style.transform = 'scale(1)';
-                            }, 2000);
-                        }, 500);
-                    }, 100);
-                }, 800);
-                
-                // Crear corazones flotantes
-                createFloatingHearts();
-                
-                // Reproducir música al abrir la carta
-                if (!isMusicPlaying) {
-                    backgroundMusic.play();
-                    musicControl.innerHTML = '<i class="fas fa-volume-up"></i>';
-                    isMusicPlaying = true;
-                }
-            }
-            
-            function closeLetterAnimation() {
-                // Ocultar botón secreto
-                secretButton.style.opacity = '0';
-                secretButton.style.transform = 'scale(0.8)';
-                
-                // Ocultar contenido de la carta
-                letterContent.style.animation = 'fadeInContent 0.8s reverse forwards';
-                
-                // Cerrar la carta
-                setTimeout(() => {
-                    openLetter.style.transform = 'rotateY(180deg)';
-                    
-                    setTimeout(() => {
-                        letterContainer.style.height = '0';
-                        
-                        // Mostrar sobre nuevamente
-                        setTimeout(() => {
-                            openLetter.style.display = 'none';
-                            
-                            // Restaurar sobre
-                            closedEnvelope.style.animation = 'closeEnvelope 1.2s forwards';
-                            closedEnvelope.style.pointerEvents = 'auto';
-                            
-                            // Restaurar icono de candado
-                            sealIcon.classList.remove('fa-lock-open');
-                            sealIcon.classList.add('fa-lock');
-                            sealIcon.style.animation = '';
-                            
-                            // Mostrar título e instrucción
-                            setTimeout(() => {
-                                titleContainer.style.animation = 'fadeInContent 1s forwards';
-                                instruction.style.animation = 'fadeInContent 1s forwards';
-                            }, 500);
-                            
-                        }, 500);
-                    }, 500);
-                }, 300);
-                
-                // Detener corazones flotantes
-                clearInterval(heartsInterval);
-            }
-            
-            function createFloatingHearts() {
-                const heartIcons = ['❤️', '💖', '💗', '💓', '💞', '💕'];
-                
-                // Crear corazones de forma continua mientras la carta está abierta
-                heartsInterval = setInterval(() => {
-                    const heart = document.createElement('div');
-                    heart.className = 'heart';
-                    heart.innerHTML = heartIcons[Math.floor(Math.random() * heartIcons.length)];
-                    heart.style.left = Math.random() * 100 + '%';
-                    heart.style.animationDuration = (Math.random() * 4 + 3) + 's';
-                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-                    heart.style.opacity = Math.random() * 0.5 + 0.5;
-                    
-                    heartsContainer.appendChild(heart);
-                    
-                    // Eliminar después de la animación
-                    setTimeout(() => {
-                        if (heart.parentNode) {
-                            heart.parentNode.removeChild(heart);
-                        }
-                    }, 6000);
-                }, 300);
-            }
-            
-            function showExtraSurprise() {
-                // Crear explosión de corazones
-                for (let i = 0; i < 100; i++) {
-                    setTimeout(() => {
-                        const heart = document.createElement('div');
-                        heart.className = 'heart';
-                        heart.innerHTML = '💖';
-                        heart.style.left = '50%';
-                        heart.style.top = '50%';
-                        heart.style.position = 'fixed';
-                        heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
-                        heart.style.animation = 'floatUp ' + (Math.random() * 3 + 2) + 's linear forwards';
-                        heart.style.opacity = '1';
-                        heart.style.zIndex = '100';
-                        
-                        document.body.appendChild(heart);
-                        
-                        // Eliminar después de la animación
-                        setTimeout(() => {
-                            if (heart.parentNode) {
-                                heart.parentNode.removeChild(heart);
-                            }
-                        }, 5000);
-                    }, i * 30);
-                }
-                
-                // Cambiar fondo temporalmente
-                document.body.style.animation = 'none';
-                document.body.style.background = 'linear-gradient(45deg, #ff9a9e, #fbc2eb, #a6c1ee, #fad0c4)';
-                
-                setTimeout(() => {
-                    document.body.style.animation = 'gradientBG 15s ease infinite';
-                }, 3000);
-                
-                // Mensaje especial
-                const message = document.createElement('div');
-                message.innerHTML = '¡TE AMO!';
-                message.style.position = 'fixed';
-                message.style.top = '50%';
-                message.style.left = '50%';
-                message.style.transform = 'translate(-50%, -50%)';
-                message.style.fontSize = '4rem';
-                message.style.color = '#d32f2f';
-                message.style.fontWeight = 'bold';
-                message.style.textShadow = '0 0 20px rgba(255, 255, 255, 0.8)';
-                message.style.zIndex = '100';
-                message.style.opacity = '0';
-                message.style.animation = 'fadeInContent 1s forwards';
-                
-                document.body.appendChild(message);
-                
-                setTimeout(() => {
-                    message.style.animation = 'fadeInContent 1s reverse forwards';
-                    setTimeout(() => {
-                        if (message.parentNode) {
-                            message.parentNode.removeChild(message);
-                        }
-                    }, 1000);
-                }, 2000);
-            }
-            
-            // Animación shake para errores de contraseña
-            const style = document.createElement('style');
-            style.innerHTML = `
-                @keyframes shake {
-                    0%, 100% { transform: translateX(0); }
-                    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-                    20%, 40%, 60%, 80% { transform: translateX(10px); }
-                }
-            `;
-            document.head.appendChild(style);
+            isMusicPlaying = !isMusicPlaying;
         });
-    </script>
-</body>
-</html>
+
+        function playBackgroundMusic() {
+            const playPromise = backgroundMusic.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // La reproducción se inició automáticamente
+                    isMusicPlaying = true;
+                    musicControlIcon.classList.remove('fa-volume-mute');
+                    musicControlIcon.classList.add('fa-volume-up');
+                }).catch(error => {
+                    // La reproducción automática fue bloqueada
+                    isMusicPlaying = false;
+                    musicControlIcon.classList.remove('fa-volume-up');
+                    musicControlIcon.classList.add('fa-volume-mute');
+                    alert('Tu navegador ha bloqueado la reproducción automática de música. Por favor, toca el icono de música en la esquina inferior derecha para activarla.');
+                });
+            }
+        }
+
+        // Crear fondo romántico
+        createRomanticBackground();
+
+        // Abrir modal de contraseña al hacer clic en el sobre
+        closedEnvelope.addEventListener('click', function() {
+            passwordModal.classList.add('active');
+            setTimeout(() => {
+                passwordContainer.classList.add('active');
+                passwordInput.focus();
+                
+                // Resetear estado
+                passwordInput.value = "";
+                passwordInput.style.borderColor = "#d32f2f";
+                passwordInput.style.boxShadow = "none";
+                passwordButton.textContent = "Abrir mi carta";
+                passwordButton.style.background = "linear-gradient(to right, #f44336, #e91e63)";
+                passwordError.classList.remove('show');
+                passwordHint.classList.remove('show');
+            }, 100);
+        });
+        
+        // Validar contraseña
+        passwordButton.addEventListener('click', validatePassword);
+        passwordInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                validatePassword();
+            }
+        });
+        
+        // Cerrar la carta
+        closeButton.addEventListener('click', closeLetterAnimation);
+        
+        // Botón secreto
+        secretButton.addEventListener('click', showExtraSurprise);
+        
+        function validatePassword() {
+            const enteredPassword = passwordInput.value;
+            
+            if (enteredPassword === CORRECT_PASSWORD) {
+                // Animación de éxito
+                sealIcon.classList.remove('fa-lock');
+                sealIcon.classList.add('fa-lock-open');
+                passwordInput.style.borderColor = "#4CAF50";
+                passwordInput.style.boxShadow = "0 0 15px rgba(76, 175, 80, 0.5)";
+                passwordButton.textContent = "✓ Correcto";
+                passwordButton.style.background = "linear-gradient(to right, #4CAF50, #8BC34A)";
+                passwordError.classList.remove('show');
+                passwordHint.classList.remove('show');
+                
+                // Efecto de desbloqueo
+                sealIcon.style.animation = "unlock 1s forwards";
+                
+                // Cerrar modal y abrir carta después de un breve retraso
+                setTimeout(() => {
+                    passwordModal.classList.remove('active');
+                    passwordContainer.classList.remove('active');
+                    openLetterAnimation();
+                }, 1500);
+            } else {
+                attempts++;
+                
+                // Animación de error
+                passwordInput.style.borderColor = "#f44336";
+                passwordInput.style.boxShadow = "0 0 15px rgba(244, 67, 54, 0.5)";
+                passwordInput.value = "";
+                passwordError.classList.add('show');
+                
+                // Mostrar pista después de 2 intentos fallidos
+                if (attempts >= 2) {
+                    passwordHint.classList.add('show');
+                }
+                
+                // Efecto de vibración
+                passwordContainer.style.animation = "shake 0.5s";
+                setTimeout(() => {
+                    passwordContainer.style.animation = "";
+                }, 500);
+            }
+        }
+        
+        function createRomanticBackground() {
+            const romanticBg = document.getElementById('romanticBg');
+            
+            // Crear partículas de corazones
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-particle';
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+                romanticBg.appendChild(heart);
+            }
+            
+            // Crear luces parpadeantes
+            for (let i = 0; i < 20; i++) {
+                const twinkle = document.createElement('div');
+                twinkle.className = 'twinkle';
+                twinkle.style.width = Math.random() * 5 + 2 + 'px';
+                twinkle.style.height = twinkle.style.width;
+                twinkle.style.left = Math.random() * 100 + 'vw';
+                twinkle.style.top = Math.random() * 100 + 'vh';
+                twinkle.style.animationDelay = Math.random() * 3 + 's';
+                romanticBg.appendChild(twinkle);
+            }
+            
+            // Crear efectos de luz
+            for (let i = 0; i < 3; i++) {
+                const glow = document.createElement('div');
+                glow.className = 'glow';
+                glow.style.left = Math.random() * 100 + 'vw';
+                glow.style.top = Math.random() * 100 + 'vh';
+                romanticBg.appendChild(glow);
+            }
+        }
+        
+        function openLetterAnimation() {
+            // Ocultar título e instrucción
+            titleContainer.style.animation = 'fadeInContent 0.8s reverse forwards';
+            instruction.style.animation = 'fadeInContent 0.8s reverse forwards';
+            
+            // Animación del sobre
+            closedEnvelope.style.transform = 'translateY(-20px) rotateY(180deg) scale(0.8)';
+            closedEnvelope.style.opacity = '0';
+            closedEnvelope.style.pointerEvents = 'none';
+            
+            // Animación de la carta
+            setTimeout(() => {
+                letterContainer.style.height = '420px';
+                openLetter.style.display = 'block';
+                
+                // Efecto de desplegar carta
+                setTimeout(() => {
+                    openLetter.style.transform = 'rotateY(360deg)';
+                    
+                    // Mostrar contenido con efecto de escritura
+                    setTimeout(() => {
+                        letterContent.style.opacity = '1';
+                        letterContent.style.animation = 'fadeInContent 1.5s forwards';
+                        
+                        // Mostrar botón secreto
+                        setTimeout(() => {
+                            secretButton.style.opacity = '1';
+                            secretButton.style.transform = 'scale(1)';
+                        }, 2000);
+                    }, 500);
+                }, 100);
+            }, 800);
+            
+            // Crear corazones flotantes
+            createFloatingHearts();
+            
+            // Reproducir música al abrir la carta
+            playBackgroundMusic();
+        }
+        
+        function closeLetterAnimation() {
+            // Ocultar botón secreto
+            secretButton.style.opacity = '0';
+            secretButton.style.transform = 'scale(0.8)';
+            
+            // Ocultar contenido y carta
+            letterContent.style.opacity = '0';
+            letterContainer.style.height = '0';
+            
+            // Animación de cierre
+            setTimeout(() => {
+                closedEnvelope.style.transform = 'translateY(0) rotateY(0) scale(1)';
+                closedEnvelope.style.opacity = '1';
+                closedEnvelope.style.pointerEvents = 'auto';
+                titleContainer.style.animation = 'fadeInContent 0.8s forwards';
+                instruction.style.animation = 'fadeInContent 0.8s forwards';
+                openLetter.style.display = 'none';
+                sealIcon.classList.remove('fa-lock-open');
+                sealIcon.classList.add('fa-lock');
+                sealIcon.style.animation = "sealPulse 2s infinite";
+                
+                // Detener la animación de corazones
+                clearInterval(heartsInterval);
+            }, 800);
+            
+            // Detener la música al cerrar la carta
+            backgroundMusic.pause();
+            isMusicPlaying = false;
+            musicControlIcon.classList.remove('fa-volume-up');
+            musicControlIcon.classList.add('fa-volume-mute');
+        }
+        
+        function createFloatingHearts() {
+            heartsInterval = setInterval(() => {
+                const heart = document.createElement('span');
+                heart.innerHTML = '❤️';
+                heart.classList.add('heart');
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+                heartsContainer.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+            }, 100);
+        }
+        
+        function showExtraSurprise() {
+            alert('¡Te quiero mucho, mi princesa! ❤️');
+        }
+    });
+</script>
