@@ -3,228 +3,1025 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intento de Amor</title>
+    <title>Carta Romántica Interactiva</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Dancing Script', cursive, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
+            background: linear-gradient(135deg, #ffd6e7, #ffc2d1, #ffb6c1, #ff9aae, #ff85a1);
+            background-size: 400% 400%;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
             overflow-x: hidden;
+            padding: 20px;
+            animation: gradientBG 20s ease infinite;
             position: relative;
         }
-        
-        .container {
-            background-color: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            max-width: 90%;
-            width: 500px;
-            z-index: 10;
-            animation: fadeIn 1.5s ease-out;
-            margin: 20px;
-        }
-        
-        h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            color: #fff;
-        }
-        
-        p {
-            font-size: 1.4rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-        
-        .heart-btn {
-            background: none;
-            border: none;
-            font-size: 2.5rem;
-            color: white;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            animation: pulse 2s infinite;
-        }
-        
-        .heart-btn:hover {
-            transform: scale(1.2);
-        }
-        
-        .message {
-            font-size: 1.3rem;
-            margin-top: 30px;
-            opacity: 0;
-            transition: opacity 1s ease;
-            font-style: italic;
-        }
-        
-        .show {
-            opacity: 1;
-        }
-        
-        /* Animaciones */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        /* Efecto de confeti */
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #f00;
-            opacity: 0.7;
-            border-radius: 50%;
-            animation: fall 5s linear infinite;
-            z-index: 1;
-        }
-        
-        @keyframes fall {
-            to { transform: translateY(100vh) rotate(360deg); }
-        }
-        
-        /* Controles de audio */
-        .audio-controls {
+
+        .romantic-bg {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.5);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .heart-particle {
+            position: absolute;
+            color: rgba(255, 105, 180, 0.7);
+            font-size: 24px;
+            animation: floatUp 15s linear infinite;
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            max-width: 800px;
+            width: 100%;
+            perspective: 1000px;
+            z-index: 10;
+            padding: 15px;
+        }
+
+        .title-container {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(186, 104, 200, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .title {
+            color: #d32f2f;
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+            animation: pulse 3s infinite;
+        }
+        
+        .time-counter {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            color: #d32f2f;
+            font-weight: bold;
+            border: 2px solid rgba(211, 47, 47, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .instruction {
+            color: #5d4037;
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        /* Nuevo diseño de sobre */
+        .envelope-container {
+            perspective: 1200px;
+            margin: 40px auto;
+            width: 320px;
+            height: 220px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform-origin: center bottom;
+        }
+
+        .envelope-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            border: 3px solid #000;
+        }
+
+        .envelope-front {
+            background: linear-gradient(45deg, #e53935, #d81b60);
+            z-index: 2;
+        }
+
+        .envelope-back {
+            background: linear-gradient(45deg, #f44336, #e91e63);
+            transform: rotateX(180deg);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #f44336, #e91e63);
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 50% 70%, 0 45%);
+            transform-origin: top;
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            border-radius: 15px;
+            z-index: 3;
+            border: 3px solid #000;
+        }
+
+        .seal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, #ffd54f, #ffc107);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(255, 213, 79, 0.8);
+            z-index: 4;
+            animation: sealPulse 2s infinite;
+            border: 3px solid #000;
+            cursor: pointer;
+        }
+
+        .seal i {
+            color: #d32f2f;
+            font-size: 32px;
+        }
+
+        /* Estilo de la carta abierta */
+        .letter-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            overflow: hidden;
+            transform-origin: center;
+            transition: all 1.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .letter-open {
+            background: linear-gradient(to bottom, #fff9c4 0%, #fff 100%);
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .letter-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .message-title {
+            color: #d32f2f;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        /* Mensaje diario */
+        .daily-message {
+            background: linear-gradient(to right, rgba(255, 182, 193, 0.2), rgba(255, 105, 180, 0.2));
+            padding: 12px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            text-align: center;
+            color: #d32f2f;
+            font-style: italic;
+            border: 2px dashed #d32f2f;
+        }
+
+        .message-content {
+            color: #5d4037;
+            font-size: 1.5rem;
+            line-height: 1.7;
+            text-align: left;
+            margin-bottom: 20px;
+            overflow-y: auto;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            flex: 1;
+            max-height: 300px;
+        }
+
+        /* Galería de fotos */
+        .photo-gallery {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            height: 90px;
+            gap: 8px;
+        }
+
+        .photo-item {
+            width: 25%;
+            height: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #d32f2f;
+            cursor: pointer;
+            transition: all 0.5s;
+            background: linear-gradient(45deg, #f8bbd0, #f48fb1);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 2rem;
+        }
+
+        .signature {
+            text-align: right;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d32f2f;
+            margin-top: 15px;
+            padding-right: 20px;
+        }
+
+        .close-letter-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #f44336, #e91e63);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 30;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid #000;
+        }
+
+        /* Reproductor de música */
+        .music-player {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            border-radius: 35px;
+            z-index: 30;
+            backdrop-filter: blur(5px);
+            border: 3px solid #000;
+        }
+
+        .music-label {
+            color: #d32f2f;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .music-toggle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f44336, #e91e63);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .music-toggle i {
+            color: white;
+            font-size: 20px;
+        }
+
+        /* Botón de amor lateral */
+        .love-button {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
             z-index: 100;
             backdrop-filter: blur(5px);
-            transition: transform 0.3s;
+            border: 3px solid #d32f2f;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .love-button i {
+            color: #d32f2f;
+            font-size: 35px;
+        }
+
+        /* Mensaje de amor */
+        .love-message {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0) rotate(5deg);
+            background: linear-gradient(45deg, #fff0f5, #ffe4e1);
+            padding: 20px 50px;
+            border-radius: 60px;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #d32f2f;
+            z-index: 150;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.7s;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            border: 3px solid #000;
+        }
+
+        .love-message.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        }
+
+        /* Modal de contraseña */
+        .password-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s;
+            backdrop-filter: blur(10px);
+        }
+
+        .password-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .password-container {
+            background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 90%;
+            width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.7s;
+            border: 3px solid #000;
+        }
+
+        .password-container.active {
+            transform: scale(1);
+        }
+
+        .password-title {
+            color: #d32f2f;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .password-subtitle {
+            color: #5d4037;
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px 25px;
+            font-size: 1.5rem;
+            border: 3px solid #d32f2f;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            margin-bottom: 25px;
+            transition: all 0.5s;
+            outline: none;
+            font-family: 'Dancing Script', cursive;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .password-input:focus {
+            border-color: #ffd54f;
+            box-shadow: 0 0 20px rgba(255, 213, 79, 0.7);
+            transform: scale(1.05);
+        }
+
+        .password-button {
+            background: linear-gradient(to right, #f44336, #e91e63);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.5s;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            border: 2px solid #000;
+        }
+
+        .password-button:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+        }
+
+        .password-hint {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            color: #7f8c8d;
+            font-style: italic;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.7s;
+        }
+
+        .password-hint.show {
+            opacity: 1;
+            max-height: 100px;
+        }
+
+        .password-error {
+            color: #f44336;
+            font-size: 1.3rem;
+            margin-top: 20px;
+            height: 25px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .password-error.show {
+            opacity: 1;
+        }
+
+        /* Animaciones */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-150px) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes sealPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(255, 213, 79, 0.8); }
+            50% { transform: translate(-50%, -50%) scale(1.15); box-shadow: 0 0 40px rgba(255, 213, 79, 1); }
         }
         
-        .audio-controls:hover {
-            transform: scale(1.1);
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.15); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.15); }
+            100% { transform: scale(1); }
         }
-        
-        .audio-controls i {
-            font-size: 24px;
-        }
-        
-        /* Responsive */
+
+        /* Media queries para dispositivos móviles */
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            p { font-size: 1.1rem; }
-            .container { padding: 20px; }
+            .container {
+                padding: 10px;
+            }
+            
+            .title-container {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .instruction {
+                font-size: 1.2rem;
+            }
+            
+            .envelope-container {
+                width: 270px;
+                height: 190px;
+                margin: 30px auto;
+            }
+            
+            .seal {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .seal i {
+                font-size: 28px;
+            }
+            
+            .letter-open {
+                padding: 20px;
+            }
+            
+            .message-title {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+            
+            .daily-message {
+                font-size: 1.2rem;
+                margin-bottom: 15px;
+            }
+            
+            .message-content {
+                font-size: 1.3rem;
+                line-height: 1.6;
+                padding: 10px;
+            }
+            
+            .signature {
+                font-size: 1.8rem;
+            }
+            
+            .music-player {
+                padding: 8px 15px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .music-label {
+                font-size: 1rem;
+            }
+            
+            .music-toggle {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .music-toggle i {
+                font-size: 18px;
+            }
+            
+            .love-button {
+                bottom: 25px;
+                left: 25px;
+                width: 60px;
+                height: 60px;
+            }
+            
+            .love-button i {
+                font-size: 28px;
+            }
+            
+            .love-message {
+                font-size: 2.2rem;
+                padding: 15px 35px;
+            }
+            
+            .photo-gallery {
+                height: 70px;
+            }
+            
+            .password-container {
+                padding: 25px;
+            }
+            
+            .password-title {
+                font-size: 2rem;
+            }
+            
+            .password-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .password-input {
+                font-size: 1.3rem;
+                padding: 12px 20px;
+            }
+            
+            .password-button {
+                font-size: 1.3rem;
+                padding: 12px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .time-counter {
+                font-size: 1.2rem;
+                padding: 8px 15px;
+            }
+            
+            .envelope-container {
+                width: 240px;
+                height: 170px;
+            }
+            
+            .letter-open {
+                padding: 15px;
+            }
+            
+            .message-title {
+                font-size: 1.8rem;
+            }
+            
+            .message-content {
+                font-size: 1.2rem;
+            }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Para mi niña hermosa</h1>
-        <p>Cada momento a tu lado es un regalo del universo. Eres la luz que ilumina mis días.</p>
-        <button class="heart-btn" id="heartButton">❤️</button>
-        <div class="message" id="message">Siempre serás mi razón para sonreír...</div>
+    <!-- Elementos de audio -->
+    <audio id="backgroundMusic" loop>
+        <source src="te_extrano.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+    <audio id="openSound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3"></audio>
+    <audio id="closeSound" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3"></audio>
+    <audio id="heartSound" src="https://assets.mixkit.co/sfx/preview/mixkit-heart-slow-beat-1764.mp3"></audio>
+    
+    <!-- Botón de amor lateral -->
+    <div class="love-button" id="loveButton">
+        <i class="fas fa-heart"></i>
     </div>
     
-    <div class="audio-controls" id="audioControls">
-        <i class="fas fa-play"></i>
+    <!-- Mensaje de amor -->
+    <div class="love-message" id="loveMessage">TE AMO</div>
+    
+    <!-- Fondo romántico -->
+    <div class="romantic-bg" id="romanticBg"></div>
+    
+    <!-- Reproductor de música -->
+    <div class="music-player" id="musicPlayer">
+        <span class="music-label">Nuestra Música</span>
+        <div class="music-toggle" id="musicToggle">
+            <i class="fas fa-play"></i>
+        </div>
+    </div>
+    
+    <!-- Modal de contraseña -->
+    <div class="password-modal" id="passwordModal">
+        <div class="password-container" id="passwordContainer">
+            <h2 class="password-title">Tu Llave de Amor</h2>
+            <p class="password-subtitle">Ingresa nuestro código especial para abrir esta carta</p>
+            <input type="password" class="password-input" id="passwordInput" placeholder="" maxlength="4">
+            <button class="password-button" id="passwordButton">Abrir mi carta</button>
+            <p class="password-hint" id="passwordHint">Pista: Es el número que representa nuestro amor</p>
+            <p class="password-error" id="passwordError">Contraseña incorrecta, intenta de nuevo</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="title-container">
+            <h1 class="title">Para Ti, Mi Princesa</h1>
+            <div class="time-counter" id="timeCounter">Juntos: 0 días</div>
+            <p class="instruction">Toca el sobre para abrir tu carta</p>
+        </div>
+        
+        <!-- Diseño de sobre -->
+        <div class="envelope-container">
+            <div class="envelope" id="closedEnvelope">
+                <div class="envelope-face envelope-front"></div>
+                <div class="envelope-face envelope-back"></div>
+                <div class="envelope-flap" id="envelopeFlap"></div>
+                <div class="seal">
+                    <i class="fas fa-lock" id="sealIcon"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="letter-container" id="letterContainer">
+            <div class="letter-open" id="openLetter">
+                <div class="close-letter-btn" id="closeButton">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                
+                <div class="letter-content">
+                    <h2 class="message-title">Mi Mensaje Especial</h2>
+                    <div class="daily-message" id="dailyMessage">
+                        <!-- Mensaje diario se cargará aquí -->
+                    </div>
+                    <div class="message-content" id="messageContent">
+                        <!-- El contenido se agregará dinámicamente -->
+                    </div>
+                    
+                    <div class="photo-gallery">
+                        <div class="photo-item" data-photo="1">📸</div>
+                        <div class="photo-item" data-photo="2">❤️</div>
+                        <div class="photo-item" data-photo="3">💑</div>
+                        <div class="photo-item" data-photo="4">🌹</div>
+                    </div>
+                    
+                    <div class="signature">Tu Príncipe</div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Audio para la música -->
-    <audio id="backgroundAudio" loop>
-        <source src="te_extrano.mp3" type="audio/mpeg">
-        Tu navegador no soporta audio HTML5.
-    </audio>
-
     <script>
-        // Script para mostrar el mensaje al hacer clic en el corazón
-        const heartButton = document.getElementById('heartButton');
-        const message = document.getElementById('message');
-        
-        heartButton.addEventListener('click', () => {
-            message.classList.add('show');
-            createConfetti(100);
-        });
-        
-        // Función para crear confeti
-        function createConfetti(count) {
-            const container = document.body;
-            for (let i = 0; i < count; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.animationDelay = Math.random() * 5 + 's';
-                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                container.appendChild(confetti);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos DOM
+            const closedEnvelope = document.getElementById('closedEnvelope');
+            const envelopeFlap = document.getElementById('envelopeFlap');
+            const letterContainer = document.getElementById('letterContainer');
+            const openLetter = document.getElementById('openLetter');
+            const closeButton = document.getElementById('closeButton');
+            const sealIcon = document.getElementById('sealIcon');
+            const musicToggle = document.getElementById('musicToggle');
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const loveButton = document.getElementById('loveButton');
+            const loveMessage = document.getElementById('loveMessage');
+            const dailyMessage = document.getElementById('dailyMessage');
+            const messageContent = document.getElementById('messageContent');
+            const timeCounter = document.getElementById('timeCounter');
+            const passwordModal = document.getElementById('passwordModal');
+            const passwordContainer = document.getElementById('passwordContainer');
+            const passwordInput = document.getElementById('passwordInput');
+            const passwordButton = document.getElementById('passwordButton');
+            const passwordHint = document.getElementById('passwordHint');
+            const passwordError = document.getElementById('passwordError');
+            
+            // Sonidos
+            const openSound = document.getElementById('openSound');
+            const closeSound = document.getElementById('closeSound');
+            const heartSound = document.getElementById('heartSound');
+            
+            // Configuración
+            const CORRECT_PASSWORD = "1517";
+            let attempts = 0;
+            let isMusicPlaying = false;
+            
+            // Mensaje de la carta
+            const letterText = `
+                <p>❤️ Mi querida princesa,</p>
+                <p>Desde que llegaste a mi vida, cada día es una aventura llena de amor y alegría. Tu sonrisa ilumina mis mañanas y tu amor calienta mis noches.</p>
+                <p>Eres la persona más increíble que he conocido, mi apoyo incondicional y mi razón para ser mejor cada día. 💖</p>
+                <p>En esta carta quiero recordarte lo especial que eres y lo afortunado que me siento de tenerte a mi lado. 💌</p>
+                <p>Con todo mi amor,</p>
+            `;
+            
+            // Mensajes diarios
+            const dailyMessages = [
+                "Hoy es un día perfecto para recordarte lo mucho que te amo",
+                "Eres la razón por la que mi corazón sonríe cada día",
+                "Cada momento a tu lado es un tesoro que atesoro con amor",
+                "Tu amor es la melodía que da sentido a mi vida",
+                "En tus ojos encuentro el hogar que siempre he buscado",
+                "Eres mi sueño hecho realidad, mi razón de ser",
+                "Contigo cada día es una nueva aventura llena de amor"
+            ];
+            
+            // Fecha especial
+            const specialDate = new Date('2023-01-01');
+            
+            // Inicializar contador de tiempo
+            function updateTimeCounter() {
+                const today = new Date();
+                const diffTime = Math.abs(today - specialDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                timeCounter.textContent = `Juntos: ${diffDays} días`;
+            }
+            
+            // Seleccionar mensaje diario
+            function getDailyMessage() {
+                const today = new Date();
+                const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+                const messageIndex = dayOfYear % dailyMessages.length;
+                dailyMessage.textContent = dailyMessages[messageIndex];
+            }
+            
+            // Botón de amor
+            loveButton.addEventListener('click', function() {
+                heartSound.currentTime = 0;
+                heartSound.play();
+                loveMessage.classList.add('active');
                 
-                // Eliminar confeti después de la animación
+                // Ocultar el mensaje después de 3 segundos
                 setTimeout(() => {
-                    confetti.remove();
-                }, 5000);
+                    loveMessage.classList.remove('active');
+                }, 3000);
+            });
+            
+            // Control de música
+            musicToggle.addEventListener('click', function() {
+                if (isMusicPlaying) {
+                    backgroundMusic.pause();
+                    isMusicPlaying = false;
+                    musicToggle.innerHTML = '<i class="fas fa-play"></i>';
+                } else {
+                    backgroundMusic.play().then(() => {
+                        isMusicPlaying = true;
+                        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+                    });
+                }
+            });
+            
+            // Abrir modal de contraseña al hacer clic en el sobre
+            closedEnvelope.addEventListener('click', function() {
+                passwordModal.classList.add('active');
+                setTimeout(() => {
+                    passwordContainer.classList.add('active');
+                    passwordInput.focus();
+                    
+                    // Resetear estado
+                    passwordInput.value = "";
+                    passwordInput.style.borderColor = "#d32f2f";
+                    passwordInput.style.boxShadow = "none";
+                    passwordButton.textContent = "Abrir mi carta";
+                    passwordButton.style.background = "linear-gradient(to right, #f44336, #e91e63)";
+                    passwordError.classList.remove('show');
+                    passwordHint.classList.remove('show');
+                }, 100);
+            });
+            
+            // Validar contraseña
+            passwordButton.addEventListener('click', validatePassword);
+            passwordInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    validatePassword();
+                }
+            });
+            
+            // Cerrar carta
+            closeButton.addEventListener('click', closeLetterAnimation);
+            
+            function validatePassword() {
+                const enteredPassword = passwordInput.value;
+                
+                if (enteredPassword === CORRECT_PASSWORD) {
+                    // Animación de éxito
+                    sealIcon.classList.remove('fa-lock');
+                    sealIcon.classList.add('fa-lock-open');
+                    passwordInput.style.borderColor = "#4CAF50";
+                    passwordInput.style.boxShadow = "0 0 20px rgba(76, 175, 80, 0.7)";
+                    passwordButton.textContent = "✓ Correcto";
+                    passwordButton.style.background = "linear-gradient(to right, #4CAF50, #8BC34A)";
+                    passwordError.classList.remove('show');
+                    passwordHint.classList.remove('show');
+                    
+                    // Efecto de desbloqueo
+                    sealIcon.style.animation = "unlock 1s forwards";
+                    
+                    // Cerrar modal y abrir carta después de un breve retraso
+                    setTimeout(() => {
+                        passwordModal.classList.remove('active');
+                        passwordContainer.classList.remove('active');
+                        openLetterAnimation();
+                    }, 1500);
+                } else {
+                    attempts++;
+                    
+                    // Animación de error
+                    passwordInput.style.borderColor = "#f44336";
+                    passwordInput.style.boxShadow = "0 0 20px rgba(244, 67, 54, 0.7)";
+                    passwordInput.value = "";
+                    passwordError.classList.add('show');
+                    
+                    // Mostrar pista después de 2 intentos fallidos
+                    if (attempts >= 2) {
+                        passwordHint.classList.add('show');
+                    }
+                    
+                    // Efecto de vibración
+                    passwordContainer.style.animation = "shake 0.5s";
+                    setTimeout(() => {
+                        passwordContainer.style.animation = "";
+                    }, 500);
+                }
             }
-        }
-        
-        // Control de audio
-        const audio = document.getElementById('backgroundAudio');
-        const audioControls = document.getElementById('audioControls');
-        const audioIcon = audioControls.querySelector('i');
-        
-        // Estado inicial del audio
-        let isPlaying = false;
-        
-        // Controlador para el botón de audio
-        audioControls.addEventListener('click', () => {
-            if (isPlaying) {
-                audio.pause();
-                audioIcon.classList.remove('fa-pause');
-                audioIcon.classList.add('fa-play');
-            } else {
-                // Intentar reproducir y manejar errores
-                audio.play().then(() => {
-                    audioIcon.classList.remove('fa-play');
-                    audioIcon.classList.add('fa-pause');
-                    isPlaying = true;
-                }).catch(e => {
-                    console.log("Error al reproducir: ", e);
-                    // Mostrar instrucciones si hay error de política de autoplay
-                    alert('Por favor, haz clic en cualquier parte de la página primero para activar el audio');
-                });
+            
+            function openLetterAnimation() {
+                // Reproducir sonido de apertura
+                openSound.play();
+                
+                // Animación del sobre
+                closedEnvelope.style.transform = 'rotateX(180deg)';
+                envelopeFlap.style.transform = 'rotateX(180deg)';
+                
+                // Animación de la carta
+                setTimeout(() => {
+                    letterContainer.style.maxHeight = '700px';
+                    letterContainer.style.opacity = '1';
+                    
+                    // Mostrar contenido
+                    setTimeout(() => {
+                        messageContent.innerHTML = letterText;
+                        getDailyMessage();
+                    }, 500);
+                }, 800);
             }
-            isPlaying = !isPlaying;
+            
+            function closeLetterAnimation() {
+                // Reproducir sonido de cierre
+                closeSound.play();
+                
+                // Cerrar la carta
+                letterContainer.style.maxHeight = '0';
+                letterContainer.style.opacity = '0';
+                
+                // Restaurar sobre
+                setTimeout(() => {
+                    closedEnvelope.style.transform = 'rotateX(0)';
+                    envelopeFlap.style.transform = 'rotateX(0)';
+                    sealIcon.classList.remove('fa-lock-open');
+                    sealIcon.classList.add('fa-lock');
+                    sealIcon.style.animation = '';
+                }, 300);
+                
+                // Detener música si está sonando
+                if (isMusicPlaying) {
+                    backgroundMusic.pause();
+                    isMusicPlaying = false;
+                    musicToggle.innerHTML = '<i class="fas fa-play"></i>';
+                }
+            }
+            
+            // Crear fondo romántico
+            function createRomanticBackground() {
+                const romanticBg = document.getElementById('romanticBg');
+                
+                // Crear partículas de corazones
+                for (let i = 0; i < 50; i++) {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-particle';
+                    heart.innerHTML = '❤';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDelay = Math.random() * 5 + 's';
+                    heart.style.fontSize = (Math.random() * 10 + 20) + 'px';
+                    romanticBg.appendChild(heart);
+                }
+            }
+            
+            // Inicializar
+            updateTimeCounter();
+            createRomanticBackground();
+            backgroundMusic.volume = 0.3;
         });
-        
-        // Permitir reproducir después de cualquier interacción del usuario
-        document.addEventListener('click', () => {
-            // Solo intentar reproducir si no está ya reproduciendo
-            if (!isPlaying) {
-                audio.play().then(() => {
-                    audioIcon.classList.remove('fa-play');
-                    audioIcon.classList.add('fa-pause');
-                    isPlaying = true;
-                }).catch(e => console.log("Error inicial al reproducir: ", e));
-            }
-        }, { once: true }); // Solo una vez
     </script>
 </body>
 </html>
