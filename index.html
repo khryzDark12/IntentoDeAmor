@@ -1,4 +1,4 @@
-<audio id="backgroundMusic" loop autoplay>
+<audio id="backgroundMusic" loop>
         <source src="te_extrano.mp3" type="audio/mp3">
         Tu navegador no soporta el elemento de audio.
     </audio>
@@ -30,9 +30,6 @@
             let attempts = 0;
             let isMusicPlaying = false;
             
-            // CORRECCIÓN: La ruta del archivo ya está en la etiqueta <audio>
-            // No es necesario modificarla aquí.
-            
             // Configuración inicial de música
             backgroundMusic.volume = 0.3;
 
@@ -55,6 +52,7 @@
                             isMusicPlaying = false;
                             musicControlIcon.classList.remove('fa-volume-up');
                             musicControlIcon.classList.add('fa-volume-mute');
+                            alert("El navegador bloqueó la reproducción automática. Haz clic en el ícono de música para activarla.");
                         });
                     }
                 }
