@@ -20,13 +20,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
             padding: 20px;
             animation: gradientBG 20s ease infinite;
             position: relative;
         }
 
-        /* Fondo romántico */
         .romantic-bg {
             position: fixed;
             top: 0;
@@ -35,6 +34,7 @@
             height: 100%;
             z-index: 0;
             overflow: hidden;
+            pointer-events: none;
         }
 
         .heart-particle {
@@ -44,39 +44,7 @@
             animation: floatUp 15s linear infinite;
             opacity: 0;
             z-index: 1;
-            cursor: pointer;
-            transition: transform 0.3s, opacity 0.3s;
-        }
-
-        .heart-particle:hover {
-            transform: scale(1.5);
-            opacity: 1;
-            animation: none;
-        }
-
-        .twinkle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-            z-index: 1;
-            cursor: pointer;
-        }
-
-        .twinkle:hover {
-            transform: scale(1.5);
-            animation: none;
-        }
-
-        .glow {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 182, 193, 0.4) 0%, rgba(255, 182, 193, 0) 70%);
-            filter: blur(20px);
-            animation: glowMove 15s infinite alternate;
-            z-index: 1;
+            pointer-events: none;
         }
 
         .container {
@@ -95,46 +63,50 @@
             z-index: 10;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(186, 104, 200, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            transition: transform 0.3s;
-        }
-
-        .title-container:hover {
-            transform: scale(1.02);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(186, 104, 200, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .title {
             color: #d32f2f;
-            font-size: 3rem;
-            margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            animation: pulse 3s infinite, floatTitle 8s ease-in-out infinite;
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+            animation: pulse 3s infinite;
+        }
+        
+        .time-counter {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            color: #d32f2f;
+            font-weight: bold;
+            border: 2px solid rgba(211, 47, 47, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
         }
 
         .instruction {
             color: #5d4037;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             margin-bottom: 8px;
             font-weight: 500;
-            animation: fadeInOut 4s infinite;
         }
 
-        /* Nuevo diseño de sobre con efecto 3D mejorado */
+        /* Nuevo diseño de sobre */
         .envelope-container {
-            perspective: 1000px;
-            margin: 30px auto;
-            width: 300px;
-            height: 200px;
+            perspective: 1200px;
+            margin: 40px auto;
+            width: 320px;
+            height: 220px;
             position: relative;
             cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .envelope-container:hover {
-            transform: translateY(-5px);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .envelope {
@@ -142,7 +114,7 @@
             width: 100%;
             height: 100%;
             transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
             transform-origin: center bottom;
         }
 
@@ -154,9 +126,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            border-radius: 10px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            border: 2px solid #000; /* Contorno negro */
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            border: 3px solid #000;
         }
 
         .envelope-front {
@@ -176,10 +148,10 @@
             background: linear-gradient(45deg, #f44336, #e91e63);
             clip-path: polygon(0 0, 100% 0, 100% 45%, 50% 70%, 0 45%);
             transform-origin: top;
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            border-radius: 10px;
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            border-radius: 15px;
             z-index: 3;
-            border: 2px solid #000; /* Contorno negro */
+            border: 3px solid #000;
         }
 
         .seal {
@@ -187,171 +159,250 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             background: radial-gradient(circle, #ffd54f, #ffc107);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 20px rgba(255, 213, 79, 0.6);
+            box-shadow: 0 0 30px rgba(255, 213, 79, 0.8);
             z-index: 4;
             animation: sealPulse 2s infinite;
-            border: 2px solid #000; /* Contorno negro */
+            border: 3px solid #000;
             cursor: pointer;
-        }
-
-        .seal:hover {
-            transform: translate(-50%, -50%) scale(1.15);
         }
 
         .seal i {
             color: #d32f2f;
-            font-size: 28px;
-            transition: transform 0.3s;
+            font-size: 32px;
         }
 
-        /* Estilo de la carta abierta con borde negro */
+        /* Estilo de la carta abierta */
         .letter-container {
             position: relative;
-            width: 280px;
-            height: 0;
+            width: 100%;
+            max-width: 600px;
             margin: 0 auto;
             overflow: hidden;
             transform-origin: center;
-            transition: all 1.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            transition: all 1.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            max-height: 0;
+            opacity: 0;
         }
 
         .letter-open {
-            display: none;
             background: linear-gradient(to bottom, #fff9c4 0%, #fff 100%);
             width: 100%;
-            height: 420px;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            height: 100%;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
             position: relative;
             overflow: hidden;
-            transform-style: preserve-3d;
-            z-index: 25;
-            border: 2px solid #000; /* Contorno negro añadido */
+            border: 3px solid #000;
+            display: flex;
+            flex-direction: column;
         }
 
         .letter-content {
             position: relative;
             z-index: 2;
-            opacity: 0;
-            transition: opacity 1s ease;
             height: 100%;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
 
         .message-title {
             color: #d32f2f;
-            font-size: 2.2rem;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
             font-weight: bold;
             text-align: center;
+        }
+        
+        /* Mensaje diario */
+        .daily-message {
+            background: linear-gradient(to right, rgba(255, 182, 193, 0.2), rgba(255, 105, 180, 0.2));
+            padding: 12px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            text-align: center;
+            color: #d32f2f;
+            font-style: italic;
+            border: 2px dashed #d32f2f;
         }
 
         .message-content {
             color: #5d4037;
-            font-size: 1.4rem;
-            line-height: 1.6;
+            font-size: 1.5rem;
+            line-height: 1.7;
             text-align: left;
-            margin-bottom: 15px;
-            height: 230px;
+            margin-bottom: 20px;
             overflow-y: auto;
-            padding-right: 10px;
-            padding-left: 10px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            flex: 1;
+            max-height: 300px;
+        }
+
+        /* Galería de fotos */
+        .photo-gallery {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            height: 90px;
+            gap: 8px;
+        }
+
+        .photo-item {
+            width: 25%;
+            height: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #d32f2f;
+            cursor: pointer;
+            transition: all 0.5s;
+            background: linear-gradient(45deg, #f8bbd0, #f48fb1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
         }
 
         .signature {
             text-align: right;
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: bold;
             color: #d32f2f;
             margin-top: 15px;
             padding-right: 20px;
         }
 
-        .letter-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.1;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d32f2f' fill-rule='evenodd'/%3E%3C/svg%3E");
-        }
-
-        /* Botón de cerrar carta */
         .close-letter-btn {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 35px;
-            height: 35px;
-            background: #f44336;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #f44336, #e91e63);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
-            font-size: 18px;
+            font-size: 20px;
             cursor: pointer;
             z-index: 30;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-            border: 1px solid #000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid #000;
         }
 
-        .close-letter-btn:hover {
-            transform: scale(1.1);
-            background: #d32f2f;
-        }
-
-        /* Botón secreto reposicionado */
-        .secret-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.3);
-            border: 2px solid #d32f2f;
-            color: #d32f2f;
+        /* Reproductor de música */
+        .music-player {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
             padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.5s ease;
+            border-radius: 35px;
+            z-index: 30;
             backdrop-filter: blur(5px);
-            z-index: 15;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 3px solid #000;
         }
 
-        .secret-button:hover {
-            background: rgba(211, 47, 47, 0.2);
-            transform: scale(1.05);
-            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.2);
+        .music-label {
+            color: #d32f2f;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            font-weight: bold;
         }
 
-        /* Sistema de contraseña */
+        .music-toggle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f44336, #e91e63);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .music-toggle i {
+            color: white;
+            font-size: 20px;
+        }
+
+        /* Botón de amor lateral */
+        .love-button {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            border: 3px solid #d32f2f;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .love-button i {
+            color: #d32f2f;
+            font-size: 35px;
+        }
+
+        /* Mensaje de amor */
+        .love-message {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0) rotate(5deg);
+            background: linear-gradient(45deg, #fff0f5, #ffe4e1);
+            padding: 20px 50px;
+            border-radius: 60px;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #d32f2f;
+            z-index: 150;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.7s;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            border: 3px solid #000;
+        }
+
+        .love-message.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        }
+
+        /* Modal de contraseña */
         .password-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 100;
+            z-index: 200;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.5s ease;
+            transition: all 0.5s;
             backdrop-filter: blur(10px);
         }
 
@@ -362,16 +413,16 @@
 
         .password-container {
             background: linear-gradient(135deg, #fff0f5, #ffe4e1);
-            padding: 30px;
-            border-radius: 20px;
+            padding: 40px;
+            border-radius: 25px;
             text-align: center;
             max-width: 90%;
-            width: 450px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
             position: relative;
             transform: scale(0.8);
-            transition: transform 0.5s ease;
-            border: 2px solid #000;
+            transition: transform 0.7s;
+            border: 3px solid #000;
         }
 
         .password-container.active {
@@ -380,36 +431,37 @@
 
         .password-title {
             color: #d32f2f;
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .password-subtitle {
             color: #5d4037;
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-            line-height: 1.4;
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
         }
 
         .password-input {
             width: 100%;
-            padding: 12px 18px;
-            font-size: 1.3rem;
-            border: 2px solid #d32f2f;
+            padding: 15px 25px;
+            font-size: 1.5rem;
+            border: 3px solid #d32f2f;
             border-radius: 50px;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             text-align: center;
-            margin-bottom: 20px;
-            transition: all 0.3s;
+            margin-bottom: 25px;
+            transition: all 0.5s;
             outline: none;
             font-family: 'Dancing Script', cursive;
             font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .password-input:focus {
             border-color: #ffd54f;
-            box-shadow: 0 0 15px rgba(255, 213, 79, 0.5);
+            box-shadow: 0 0 20px rgba(255, 213, 79, 0.7);
             transform: scale(1.05);
         }
 
@@ -417,30 +469,30 @@
             background: linear-gradient(to right, #f44336, #e91e63);
             color: white;
             border: none;
-            padding: 12px 35px;
-            font-size: 1.3rem;
+            padding: 15px 40px;
+            font-size: 1.5rem;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.5s;
             font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            border: 1px solid #000;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            border: 2px solid #000;
         }
 
         .password-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
         }
 
         .password-hint {
-            margin-top: 15px;
-            font-size: 1.1rem;
+            margin-top: 20px;
+            font-size: 1.3rem;
             color: #7f8c8d;
             font-style: italic;
             opacity: 0;
             max-height: 0;
             overflow: hidden;
-            transition: all 0.5s ease;
+            transition: all 0.7s;
         }
 
         .password-hint.show {
@@ -450,172 +502,16 @@
 
         .password-error {
             color: #f44336;
-            font-size: 1.1rem;
-            margin-top: 15px;
-            height: 20px;
+            font-size: 1.3rem;
+            margin-top: 20px;
+            height: 25px;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.5s;
         }
 
         .password-error.show {
             opacity: 1;
         }
-
-        /* Reproductor de música reposicionado */
-        .music-player {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 8px 15px;
-            border-radius: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            z-index: 30;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(211, 47, 47, 0.3);
-            border: 2px solid #000;
-            transition: transform 0.3s;
-        }
-
-        .music-player:hover {
-            transform: scale(1.05);
-        }
-
-        .music-label {
-            color: #d32f2f;
-            font-size: 1rem;
-            margin-right: 10px;
-            font-weight: bold;
-        }
-
-        .music-toggle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #f44336, #e91e63);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-            border: 1px solid #000;
-        }
-
-        .music-toggle:hover {
-            transform: scale(1.1);
-        }
-
-        .music-toggle i {
-            color: white;
-            font-size: 18px;
-        }
-
-        /* Botón de amor lateral */
-        .love-button {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 100;
-            backdrop-filter: blur(5px);
-            border: 2px solid #d32f2f;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-            border: 2px solid #000;
-        }
-
-        .love-button:hover {
-            transform: scale(1.1);
-            background: rgba(211, 47, 47, 0.2);
-        }
-
-        .love-button i {
-            color: #d32f2f;
-            font-size: 30px;
-            animation: heartbeat 1.5s infinite;
-        }
-
-        /* Mensaje de amor */
-        .love-message {
-            position: fixed;
-            top: 20%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #d32f2f;
-            z-index: 150;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transition: all 0.3s ease;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-            border: 2px solid #000;
-        }
-
-        .love-message.active {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        /* Elementos decorativos */
-        .hearts-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .heart {
-            position: absolute;
-            color: #e91e63;
-            font-size: 20px;
-            opacity: 0;
-            animation: floatUp 6s linear infinite;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .heart:hover {
-            transform: scale(1.5);
-            animation: none;
-            opacity: 1;
-        }
-
-        .flowers {
-            position: absolute;
-            font-size: 28px;
-            color: #e91e63;
-            opacity: 0.7;
-            z-index: 5;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .flowers:hover {
-            transform: scale(1.3);
-        }
-
-        .flower-1 { top: 10%; left: 5%; animation: float 12s infinite, rotate 20s infinite; }
-        .flower-2 { top: 20%; right: 10%; animation: float 15s infinite, rotate 25s infinite reverse; }
-        .flower-3 { bottom: 15%; left: 15%; animation: float 18s infinite, rotate 30s infinite; }
-        .flower-4 { bottom: 5%; right: 5%; animation: float 14s infinite, rotate 22s infinite reverse; }
 
         /* Animaciones */
         @keyframes gradientBG {
@@ -626,95 +522,28 @@
 
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.08); }
             100% { transform: scale(1); }
-        }
-
-        @keyframes floatTitle {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
-        }
-
-        @keyframes sealPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); }
-            50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 25px rgba(0, 0, 0, 0.3); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(10deg); }
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         @keyframes floatUp {
             0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
             90% { opacity: 0.8; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(-150px) rotate(360deg); opacity: 0; }
         }
 
-        @keyframes openEnvelope {
-            0% { transform: rotateX(0); }
-            100% { transform: rotateX(180deg); }
-        }
-
-        @keyframes fadeInContent {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes closeEnvelope {
-            0% { opacity: 0; transform: translateY(-20px) rotateY(180deg) scale(0.8); }
-            100% { opacity: 1; transform: translateY(0) rotateY(0) scale(1); }
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes glowMove {
-            0% { transform: translate(0, 0); }
-            25% { transform: translate(40vw, 30vh); }
-            50% { transform: translate(20vw, 60vh); }
-            75% { transform: translate(70vw, 40vh); }
-            100% { transform: translate(10vw, 20vh); }
-        }
-
-        @keyframes unlock {
-            0% { transform: rotate(0) scale(1); }
-            25% { transform: rotate(15deg) scale(1.2); }
-            50% { transform: rotate(-15deg) scale(1.3); }
-            75% { transform: rotate(5deg) scale(1.2); }
-            100% { transform: rotate(0) scale(1); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        @keyframes sealPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(255, 213, 79, 0.8); }
+            50% { transform: translate(-50%, -50%) scale(1.15); box-shadow: 0 0 40px rgba(255, 213, 79, 1); }
         }
         
         @keyframes heartbeat {
             0% { transform: scale(1); }
-            25% { transform: scale(1.1); }
+            25% { transform: scale(1.15); }
             50% { transform: scale(1); }
-            75% { transform: scale(1.1); }
+            75% { transform: scale(1.15); }
             100% { transform: scale(1); }
-        }
-
-        @keyframes typewriter {
-            from { width: 0; }
-            to { width: 100%; }
         }
 
         /* Media queries para dispositivos móviles */
@@ -724,7 +553,7 @@
             }
             
             .title-container {
-                padding: 12px;
+                padding: 15px;
                 margin-bottom: 15px;
             }
             
@@ -737,116 +566,144 @@
             }
             
             .envelope-container {
-                width: 250px;
-                height: 170px;
-                margin: 20px auto;
+                width: 270px;
+                height: 190px;
+                margin: 30px auto;
             }
             
             .seal {
-                width: 50px;
-                height: 50px;
+                width: 60px;
+                height: 60px;
             }
             
             .seal i {
-                font-size: 24px;
-            }
-            
-            .letter-container {
-                width: 240px;
+                font-size: 28px;
             }
             
             .letter-open {
-                height: 380px;
                 padding: 20px;
             }
             
             .message-title {
-                font-size: 1.8rem;
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+            
+            .daily-message {
+                font-size: 1.2rem;
                 margin-bottom: 15px;
             }
             
             .message-content {
-                font-size: 1.2rem;
-                line-height: 1.5;
-                height: 200px;
+                font-size: 1.3rem;
+                line-height: 1.6;
+                padding: 10px;
             }
             
             .signature {
-                font-size: 1.6rem;
-            }
-            
-            .password-container {
-                padding: 20px;
-            }
-            
-            .password-title {
                 font-size: 1.8rem;
             }
             
-            .password-subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .password-input {
-                font-size: 1.1rem;
-                padding: 10px 15px;
-            }
-            
-            .password-button {
-                font-size: 1.1rem;
-                padding: 10px 25px;
-            }
-            
-            .secret-button {
-                top: 15px;
-                left: 15px;
-                font-size: 1rem;
-                padding: 8px 16px;
-            }
-            
             .music-player {
-                padding: 6px 12px;
-                bottom: 15px;
-                right: 15px;
+                padding: 8px 15px;
+                bottom: 20px;
+                right: 20px;
             }
             
             .music-label {
-                font-size: 0.9rem;
+                font-size: 1rem;
             }
             
             .music-toggle {
-                width: 35px;
-                height: 35px;
+                width: 40px;
+                height: 40px;
             }
             
             .music-toggle i {
-                font-size: 16px;
+                font-size: 18px;
             }
             
             .love-button {
-                bottom: 20px;
-                left: 20px;
-                width: 50px;
-                height: 50px;
+                bottom: 25px;
+                left: 25px;
+                width: 60px;
+                height: 60px;
             }
             
             .love-button i {
-                font-size: 24px;
+                font-size: 28px;
             }
             
             .love-message {
+                font-size: 2.2rem;
+                padding: 15px 35px;
+            }
+            
+            .photo-gallery {
+                height: 70px;
+            }
+            
+            .password-container {
+                padding: 25px;
+            }
+            
+            .password-title {
                 font-size: 2rem;
-                padding: 15px 30px;
+            }
+            
+            .password-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .password-input {
+                font-size: 1.3rem;
+                padding: 12px 20px;
+            }
+            
+            .password-button {
+                font-size: 1.3rem;
+                padding: 12px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .time-counter {
+                font-size: 1.2rem;
+                padding: 8px 15px;
+            }
+            
+            .envelope-container {
+                width: 240px;
+                height: 170px;
+            }
+            
+            .letter-open {
+                padding: 15px;
+            }
+            
+            .message-title {
+                font-size: 1.8rem;
+            }
+            
+            .message-content {
+                font-size: 1.2rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Elemento de audio para la melodía -->
+    <!-- Elementos de audio -->
     <audio id="backgroundMusic" loop>
         <source src="te_extrano.mp3" type="audio/mpeg">
         Tu navegador no soporta el elemento de audio.
     </audio>
+    <audio id="openSound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3"></audio>
+    <audio id="closeSound" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3"></audio>
+    <audio id="heartSound" src="https://assets.mixkit.co/sfx/preview/mixkit-heart-slow-beat-1764.mp3"></audio>
     
     <!-- Botón de amor lateral -->
     <div class="love-button" id="loveButton">
@@ -859,7 +716,7 @@
     <!-- Fondo romántico -->
     <div class="romantic-bg" id="romanticBg"></div>
     
-    <!-- Reproductor de música reposicionado -->
+    <!-- Reproductor de música -->
     <div class="music-player" id="musicPlayer">
         <span class="music-label">Nuestra Música</span>
         <div class="music-toggle" id="musicToggle">
@@ -882,10 +739,11 @@
     <div class="container">
         <div class="title-container">
             <h1 class="title">Para Ti, Mi Princesa</h1>
+            <div class="time-counter" id="timeCounter">Juntos: 0 días</div>
             <p class="instruction">Toca el sobre para abrir tu carta</p>
         </div>
         
-        <!-- Nuevo diseño de sobre con efecto 3D -->
+        <!-- Diseño de sobre -->
         <div class="envelope-container">
             <div class="envelope" id="closedEnvelope">
                 <div class="envelope-face envelope-front"></div>
@@ -903,62 +761,62 @@
                     <i class="fas fa-envelope"></i>
                 </div>
                 
-                <div class="letter-pattern"></div>
                 <div class="letter-content">
                     <h2 class="message-title">Mi Mensaje Especial</h2>
-                    <div class="message-content" id="typewriterText">
+                    <div class="daily-message" id="dailyMessage">
+                        <!-- Mensaje diario se cargará aquí -->
+                    </div>
+                    <div class="message-content" id="messageContent">
                         <!-- El contenido se agregará dinámicamente -->
                     </div>
+                    
+                    <div class="photo-gallery">
+                        <div class="photo-item" data-photo="1">📸</div>
+                        <div class="photo-item" data-photo="2">❤️</div>
+                        <div class="photo-item" data-photo="3">💑</div>
+                        <div class="photo-item" data-photo="4">🌹</div>
+                    </div>
+                    
                     <div class="signature">Tu Príncipe</div>
                 </div>
             </div>
         </div>
-        
-        <!-- Botón secreto reposicionado -->
-        <button class="secret-button" id="secretButton">Una sorpresa para ti</button>
     </div>
-
-    <!-- Decoraciones -->
-    <div class="flowers flower-1">🌹</div>
-    <div class="flowers flower-2">🌸</div>
-    <div class="flowers flower-3">🌺</div>
-    <div class="flowers flower-4">💮</div>
-    
-    <div class="hearts-container" id="heartsContainer"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Elementos DOM
             const closedEnvelope = document.getElementById('closedEnvelope');
             const envelopeFlap = document.getElementById('envelopeFlap');
             const letterContainer = document.getElementById('letterContainer');
             const openLetter = document.getElementById('openLetter');
             const closeButton = document.getElementById('closeButton');
-            const heartsContainer = document.getElementById('heartsContainer');
-            const secretButton = document.getElementById('secretButton');
-            const letterContent = document.querySelector('.letter-content');
-            const titleContainer = document.querySelector('.title-container');
-            const instruction = document.querySelector('.instruction');
-            const passwordModal = document.getElementById('passwordModal');
-            const passwordContainer = document.getElementById('passwordContainer');
-            const passwordInput = document.getElementById('passwordInput');
-            const passwordButton = document.getElementById('passwordButton');
-            const passwordError = document.getElementById('passwordError');
-            const passwordHint = document.getElementById('passwordHint');
             const sealIcon = document.getElementById('sealIcon');
             const musicToggle = document.getElementById('musicToggle');
             const backgroundMusic = document.getElementById('backgroundMusic');
             const loveButton = document.getElementById('loveButton');
             const loveMessage = document.getElementById('loveMessage');
-            const typewriterText = document.getElementById('typewriterText');
-            const flowers = document.querySelectorAll('.flowers');
+            const dailyMessage = document.getElementById('dailyMessage');
+            const messageContent = document.getElementById('messageContent');
+            const timeCounter = document.getElementById('timeCounter');
+            const passwordModal = document.getElementById('passwordModal');
+            const passwordContainer = document.getElementById('passwordContainer');
+            const passwordInput = document.getElementById('passwordInput');
+            const passwordButton = document.getElementById('passwordButton');
+            const passwordHint = document.getElementById('passwordHint');
+            const passwordError = document.getElementById('passwordError');
             
-            let heartsInterval;
+            // Sonidos
+            const openSound = document.getElementById('openSound');
+            const closeSound = document.getElementById('closeSound');
+            const heartSound = document.getElementById('heartSound');
+            
+            // Configuración
             const CORRECT_PASSWORD = "1517";
             let attempts = 0;
             let isMusicPlaying = false;
-            let audioContextResolved = false;
             
-            // Texto para el efecto de máquina de escribir (con iconos)
+            // Mensaje de la carta
             const letterText = `
                 <p>❤️ Mi querida princesa,</p>
                 <p>Desde que llegaste a mi vida, cada día es una aventura llena de amor y alegría. Tu sonrisa ilumina mis mañanas y tu amor calienta mis noches.</p>
@@ -967,29 +825,41 @@
                 <p>Con todo mi amor,</p>
             `;
             
-            // Configuración inicial de música
-            backgroundMusic.volume = 0.3;
+            // Mensajes diarios
+            const dailyMessages = [
+                "Hoy es un día perfecto para recordarte lo mucho que te amo",
+                "Eres la razón por la que mi corazón sonríe cada día",
+                "Cada momento a tu lado es un tesoro que atesoro con amor",
+                "Tu amor es la melodía que da sentido a mi vida",
+                "En tus ojos encuentro el hogar que siempre he buscado",
+                "Eres mi sueño hecho realidad, mi razón de ser",
+                "Contigo cada día es una nueva aventura llena de amor"
+            ];
             
-            // Solución definitiva para GitHub Pages
-            function setupAudioContext() {
-                if (audioContextResolved) return;
-                
-                // Intentar resolver el contexto de audio
-                const context = new (window.AudioContext || window.webkitAudioContext)();
-                if (context.state === 'suspended') {
-                    context.resume().then(() => {
-                        audioContextResolved = true;
-                    });
-                }
+            // Fecha especial
+            const specialDate = new Date('2023-01-01');
+            
+            // Inicializar contador de tiempo
+            function updateTimeCounter() {
+                const today = new Date();
+                const diffTime = Math.abs(today - specialDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                timeCounter.textContent = `Juntos: ${diffDays} días`;
+            }
+            
+            // Seleccionar mensaje diario
+            function getDailyMessage() {
+                const today = new Date();
+                const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+                const messageIndex = dayOfYear % dailyMessages.length;
+                dailyMessage.textContent = dailyMessages[messageIndex];
             }
             
             // Botón de amor
             loveButton.addEventListener('click', function() {
-                setupAudioContext();
+                heartSound.currentTime = 0;
+                heartSound.play();
                 loveMessage.classList.add('active');
-                
-                // Crear corazones flotantes
-                createHearts();
                 
                 // Ocultar el mensaje después de 3 segundos
                 setTimeout(() => {
@@ -997,10 +867,8 @@
                 }, 3000);
             });
             
-            // Control de música (con iconos de play/pause)
+            // Control de música
             musicToggle.addEventListener('click', function() {
-                setupAudioContext();
-                
                 if (isMusicPlaying) {
                     backgroundMusic.pause();
                     isMusicPlaying = false;
@@ -1009,104 +877,9 @@
                     backgroundMusic.play().then(() => {
                         isMusicPlaying = true;
                         musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-                    }).catch(error => {
-                        console.log('Reproducción bloqueada:', error);
-                        // Solución alternativa para GitHub Pages
-                        backgroundMusic.muted = true;
-                        backgroundMusic.play().then(() => {
-                            backgroundMusic.muted = false;
-                            isMusicPlaying = true;
-                            musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-                        });
                     });
                 }
             });
-            
-            // Interacción con flores
-            flowers.forEach(flower => {
-                flower.addEventListener('click', function() {
-                    createFlowerHearts(this);
-                });
-            });
-            
-            // Crear corazones flotantes para el botón de amor
-            function createHearts() {
-                const heartIcons = ['❤️', '💖', '💗', '💓', '💞', '💕'];
-                
-                for (let i = 0; i < 30; i++) {
-                    setTimeout(() => {
-                        const heart = document.createElement('div');
-                        heart.className = 'heart';
-                        heart.innerHTML = heartIcons[Math.floor(Math.random() * heartIcons.length)];
-                        heart.style.left = Math.random() * 100 + '%';
-                        heart.style.animationDuration = (Math.random() * 4 + 3) + 's';
-                        heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-                        heart.style.opacity = Math.random() * 0.5 + 0.5;
-                        
-                        heartsContainer.appendChild(heart);
-                        
-                        // Eliminar después de la animación
-                        setTimeout(() => {
-                            if (heart.parentNode) {
-                                heart.parentNode.removeChild(heart);
-                            }
-                        }, 6000);
-                    }, i * 100);
-                }
-            }
-            
-            // Crear corazones al hacer clic en una flor
-            function createFlowerHearts(flower) {
-                const heartIcons = ['❤️', '💖', '💗', '💓', '💞', '💕'];
-                const rect = flower.getBoundingClientRect();
-                
-                for (let i = 0; i < 15; i++) {
-                    const heart = document.createElement('div');
-                    heart.className = 'heart';
-                    heart.innerHTML = heartIcons[Math.floor(Math.random() * heartIcons.length)];
-                    heart.style.left = (rect.left + rect.width/2) + 'px';
-                    heart.style.top = (rect.top + rect.height/2) + 'px';
-                    heart.style.position = 'fixed';
-                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-                    heart.style.opacity = 1;
-                    heart.style.zIndex = 100;
-                    heart.style.pointerEvents = 'none';
-                    
-                    document.body.appendChild(heart);
-                    
-                    // Eliminar después de la animación
-                    setTimeout(() => {
-                        if (heart.parentNode) {
-                            heart.parentNode.removeChild(heart);
-                        }
-                    }, 5000);
-                }
-            }
-            
-            // Efecto de máquina de escribir
-            function typeWriterEffect() {
-                let charIndex = 0;
-                let text = letterText;
-                let speed = 20; // Velocidad de escritura (ms)
-                let content = '';
-                
-                function type() {
-                    if (charIndex < text.length) {
-                        content += text.charAt(charIndex);
-                        typewriterText.innerHTML = content;
-                        charIndex++;
-                        setTimeout(type, speed);
-                    }
-                }
-                
-                // Limpiar contenido previo
-                typewriterText.innerHTML = '';
-                type();
-            }
-            
-            // Crear fondo romántico
-            createRomanticBackground();
             
             // Abrir modal de contraseña al hacer clic en el sobre
             closedEnvelope.addEventListener('click', function() {
@@ -1134,13 +907,8 @@
                 }
             });
             
-            // Cerrar la carta
+            // Cerrar carta
             closeButton.addEventListener('click', closeLetterAnimation);
-            
-            // Botón secreto (mensaje especial)
-            secretButton.addEventListener('click', function() {
-                loveButton.click(); // Simular clic en el botón de amor
-            });
             
             function validatePassword() {
                 const enteredPassword = passwordInput.value;
@@ -1150,7 +918,7 @@
                     sealIcon.classList.remove('fa-lock');
                     sealIcon.classList.add('fa-lock-open');
                     passwordInput.style.borderColor = "#4CAF50";
-                    passwordInput.style.boxShadow = "0 0 15px rgba(76, 175, 80, 0.5)";
+                    passwordInput.style.boxShadow = "0 0 20px rgba(76, 175, 80, 0.7)";
                     passwordButton.textContent = "✓ Correcto";
                     passwordButton.style.background = "linear-gradient(to right, #4CAF50, #8BC34A)";
                     passwordError.classList.remove('show');
@@ -1170,7 +938,7 @@
                     
                     // Animación de error
                     passwordInput.style.borderColor = "#f44336";
-                    passwordInput.style.boxShadow = "0 0 15px rgba(244, 67, 54, 0.5)";
+                    passwordInput.style.boxShadow = "0 0 20px rgba(244, 67, 54, 0.7)";
                     passwordInput.value = "";
                     passwordError.classList.add('show');
                     
@@ -1187,89 +955,43 @@
                 }
             }
             
-            function createRomanticBackground() {
-                const romanticBg = document.getElementById('romanticBg');
-                
-                // Crear partículas de corazones
-                for (let i = 0; i < 30; i++) {
-                    const heart = document.createElement('div');
-                    heart.className = 'heart-particle';
-                    heart.innerHTML = '❤';
-                    heart.style.left = Math.random() * 100 + 'vw';
-                    heart.style.animationDelay = Math.random() * 5 + 's';
-                    heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
-                    romanticBg.appendChild(heart);
-                }
-                
-                // Crear luces parpadeantes
-                for (let i = 0; i < 20; i++) {
-                    const twinkle = document.createElement('div');
-                    twinkle.className = 'twinkle';
-                    twinkle.style.width = Math.random() * 5 + 2 + 'px';
-                    twinkle.style.height = twinkle.style.width;
-                    twinkle.style.left = Math.random() * 100 + 'vw';
-                    twinkle.style.top = Math.random() * 100 + 'vh';
-                    twinkle.style.animationDelay = Math.random() * 3 + 's';
-                    romanticBg.appendChild(twinkle);
-                }
-                
-                // Crear efectos de luz
-                for (let i = 0; i < 3; i++) {
-                    const glow = document.createElement('div');
-                    glow.className = 'glow';
-                    glow.style.left = Math.random() * 100 + 'vw';
-                    glow.style.top = Math.random() * 100 + 'vh';
-                    romanticBg.appendChild(glow);
-                }
-            }
-            
             function openLetterAnimation() {
-                // Ocultar título e instrucción
-                titleContainer.style.animation = 'fadeInContent 0.8s reverse forwards';
-                instruction.style.animation = 'fadeInContent 0.8s reverse forwards';
+                // Reproducir sonido de apertura
+                openSound.play();
                 
                 // Animación del sobre
                 closedEnvelope.style.transform = 'rotateX(180deg)';
                 envelopeFlap.style.transform = 'rotateX(180deg)';
-                closedEnvelope.style.pointerEvents = 'none';
                 
                 // Animación de la carta
                 setTimeout(() => {
-                    letterContainer.style.height = '420px';
-                    openLetter.style.display = 'block';
+                    letterContainer.style.maxHeight = '700px';
+                    letterContainer.style.opacity = '1';
                     
-                    // Efecto de desplegar carta
+                    // Mostrar contenido
                     setTimeout(() => {
-                        openLetter.style.transform = 'rotateY(360deg)';
-                        
-                        // Mostrar contenido con efecto de escritura
-                        setTimeout(() => {
-                            letterContent.style.opacity = '1';
-                            letterContent.style.animation = 'fadeInContent 0.5s forwards';
-                            
-                            // Iniciar efecto de escritura
-                            typeWriterEffect();
-                            
-                            // Mostrar botón secreto
-                            setTimeout(() => {
-                                secretButton.style.opacity = '1';
-                                secretButton.style.transform = 'scale(1)';
-                            }, 2000);
-                        }, 500);
-                    }, 100);
+                        messageContent.innerHTML = letterText;
+                        getDailyMessage();
+                    }, 500);
                 }, 800);
-                
-                // Crear corazones flotantes
-                createFloatingHearts();
             }
             
             function closeLetterAnimation() {
-                // Ocultar botón secreto
-                secretButton.style.opacity = '0';
-                secretButton.style.transform = 'scale(0.8)';
+                // Reproducir sonido de cierre
+                closeSound.play();
                 
-                // Ocultar contenido de la carta
-                letterContent.style.animation = 'fadeInContent 0.8s reverse forwards';
+                // Cerrar la carta
+                letterContainer.style.maxHeight = '0';
+                letterContainer.style.opacity = '0';
+                
+                // Restaurar sobre
+                setTimeout(() => {
+                    closedEnvelope.style.transform = 'rotateX(0)';
+                    envelopeFlap.style.transform = 'rotateX(0)';
+                    sealIcon.classList.remove('fa-lock-open');
+                    sealIcon.classList.add('fa-lock');
+                    sealIcon.style.animation = '';
+                }, 300);
                 
                 // Detener música si está sonando
                 if (isMusicPlaying) {
@@ -1277,66 +999,28 @@
                     isMusicPlaying = false;
                     musicToggle.innerHTML = '<i class="fas fa-play"></i>';
                 }
-                
-                // Cerrar la carta
-                setTimeout(() => {
-                    openLetter.style.transform = 'rotateY(180deg)';
-                    
-                    setTimeout(() => {
-                        letterContainer.style.height = '0';
-                        
-                        // Mostrar sobre nuevamente
-                        setTimeout(() => {
-                            openLetter.style.display = 'none';
-                            
-                            // Restaurar sobre
-                            closedEnvelope.style.animation = 'closeEnvelope 1.2s forwards';
-                            closedEnvelope.style.transform = 'rotateX(0)';
-                            envelopeFlap.style.transform = 'rotateX(0)';
-                            closedEnvelope.style.pointerEvents = 'auto';
-                            
-                            // Restaurar icono de candado
-                            sealIcon.classList.remove('fa-lock-open');
-                            sealIcon.classList.add('fa-lock');
-                            sealIcon.style.animation = '';
-                            
-                            // Mostrar título e instrucción
-                            setTimeout(() => {
-                                titleContainer.style.animation = 'fadeInContent 1s forwards';
-                                instruction.style.animation = 'fadeInContent 1s forwards';
-                            }, 500);
-                            
-                        }, 500);
-                    }, 500);
-                }, 300);
-                
-                // Detener corazones flotantes
-                clearInterval(heartsInterval);
             }
             
-            function createFloatingHearts() {
-                const heartIcons = ['❤️', '💖', '💗', '💓', '💞', '💕'];
+            // Crear fondo romántico
+            function createRomanticBackground() {
+                const romanticBg = document.getElementById('romanticBg');
                 
-                // Crear corazones de forma continua mientras la carta está abierta
-                heartsInterval = setInterval(() => {
+                // Crear partículas de corazones
+                for (let i = 0; i < 50; i++) {
                     const heart = document.createElement('div');
-                    heart.className = 'heart';
-                    heart.innerHTML = heartIcons[Math.floor(Math.random() * heartIcons.length)];
-                    heart.style.left = Math.random() * 100 + '%';
-                    heart.style.animationDuration = (Math.random() * 4 + 3) + 's';
-                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-                    heart.style.opacity = Math.random() * 0.5 + 0.5;
-                    
-                    heartsContainer.appendChild(heart);
-                    
-                    // Eliminar después de la animación
-                    setTimeout(() => {
-                        if (heart.parentNode) {
-                            heart.parentNode.removeChild(heart);
-                        }
-                    }, 6000);
-                }, 300);
+                    heart.className = 'heart-particle';
+                    heart.innerHTML = '❤';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDelay = Math.random() * 5 + 's';
+                    heart.style.fontSize = (Math.random() * 10 + 20) + 'px';
+                    romanticBg.appendChild(heart);
+                }
             }
+            
+            // Inicializar
+            updateTimeCounter();
+            createRomanticBackground();
+            backgroundMusic.volume = 0.3;
         });
     </script>
 </body>
