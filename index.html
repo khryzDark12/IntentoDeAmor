@@ -570,7 +570,7 @@
     <div class="container">
         <div class="title-container">
             <h1 class="title">Para Ti, Mi Princesa</h1>
-            <p class="instruction">Toca el sobre para abrir tu carta</p>
+            <p class="instruction" id="instructionText">Toca el sobre para abrir tu carta</p>
         </div>
         
         <div class="envelope-closed" id="closedEnvelope">
@@ -621,7 +621,7 @@
             const secretButton = document.getElementById('secretButton');
             const letterContent = document.querySelector('.letter-content');
             const titleContainer = document.querySelector('.title-container');
-            const instruction = document.querySelector('.instruction');
+            const instruction = document.getElementById('instructionText');
             const passwordModal = document.getElementById('passwordModal');
             const passwordContainer = document.getElementById('passwordContainer');
             const passwordInput = document.getElementById('passwordInput');
@@ -639,7 +639,7 @@
             
             // Configuración inicial de música
             backgroundMusic.volume = 0.3;
-            
+
             // Control de música
             musicControl.addEventListener('click', function() {
                 if (isMusicPlaying) {
@@ -657,7 +657,6 @@
             
             // Abrir modal de contraseña al hacer clic en el sobre
             closedEnvelope.addEventListener('click', function() {
-                // Esta línea nos ayudará a saber si el clic funciona
                 console.log("¡Hiciste clic en el sobre!");
                 
                 passwordModal.classList.add('active');
@@ -807,15 +806,15 @@
                 // Crear corazones flotantes
                 createFloatingHearts();
                 
-                // Reproducir música al abrir la carta
+                // --- CAMBIOS DE REPRODUCCIÓN DE MÚSICA ---
+                // Para evitar el bloqueo del navegador, la música no se reproducirá automáticamente.
+                // En su lugar, indicamos al usuario que puede usar el botón de control.
                 if (!isMusicPlaying) {
-                    try {
-                        backgroundMusic.play();
-                        musicControl.innerHTML = '<i class="fas fa-volume-up"></i>';
-                        isMusicPlaying = true;
-                    } catch (error) {
-                        alert("El navegador ha bloqueado la reproducción automática de música. Por favor, usa el botón de control de música en la esquina inferior derecha para activarla.");
-                    }
+                    instruction.textContent = "Toca el botón de música para reproducir";
+                    instruction.style.animation = 'none';
+                    setTimeout(() => {
+                        instruction.style.animation = 'fadeInOut 4s infinite';
+                    }, 4000);
                 }
             }
             
