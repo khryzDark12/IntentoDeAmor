@@ -19,15 +19,14 @@
         const musicControl = document.getElementById('musicControl');
         const backgroundMusic = document.getElementById('backgroundMusic');
         const musicControlIcon = musicControl.querySelector('i');
-        const musicAudioSource = document.querySelector('#backgroundMusic source');
 
         let heartsInterval;
         const CORRECT_PASSWORD = "1517";
         let attempts = 0;
         let isMusicPlaying = false;
         
-        // CORRECCIÓN: Usar el nombre de archivo correcto
-        musicAudioSource.src = "te_extrano.mp3";
+        // CORRECCIÓN: Usar el nombre de archivo correcto en el elemento <audio> directamente
+        backgroundMusic.src = "te_extrano.mp3";
         backgroundMusic.load();
 
         // Configuración inicial de música
