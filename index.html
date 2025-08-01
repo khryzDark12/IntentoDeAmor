@@ -918,7 +918,12 @@
                     backgroundMusic.pause();
                     musicToggle.innerHTML = '<i class="fas fa-moon"></i>';
                 } else {
-                    backgroundMusic.play();
+                    // Solución para GitHub Pages: Iniciar reproducción con gesto del usuario
+                    backgroundMusic.play().catch(error => {
+                        console.log('Reproducción automática bloqueada:', error);
+                        // Mostrar advertencia para el usuario
+                        alert('Por favor haz clic en "Abrir mi carta" para habilitar la música');
+                    });
                     musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
                 }
                 isMusicPlaying = !isMusicPlaying;
