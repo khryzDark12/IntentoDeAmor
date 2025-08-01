@@ -551,7 +551,7 @@
     </audio>
     
     <div class="music-control" id="musicControl">
-        <i class="fas fa-volume-up"></i>
+        <i class="fas fa-volume-mute"></i>
     </div>
     
     <div class="romantic-bg" id="romanticBg"></div>
@@ -646,8 +646,14 @@
                     backgroundMusic.pause();
                     musicControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
                 } else {
-                    backgroundMusic.play();
-                    musicControl.innerHTML = '<i class="fas fa-volume-up"></i>';
+                    backgroundMusic.play().then(() => {
+                        musicControl.innerHTML = '<i class="fas fa-volume-up"></i>';
+                    }).catch(error => {
+                        console.error("Error al intentar reproducir la música:", error);
+                        // Mostrar una alerta si la reproducción falla por alguna razón
+                        alert("Error al reproducir la música. Asegúrate de que tu navegador permita la reproducción de audio. Intenta de nuevo.");
+                        musicControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                    });
                 }
                 isMusicPlaying = !isMusicPlaying;
             });
@@ -657,8 +663,6 @@
             
             // Abrir modal de contraseña al hacer clic en el sobre
             closedEnvelope.addEventListener('click', function() {
-                console.log("¡Hiciste clic en el sobre!");
-                
                 passwordModal.classList.add('active');
                 setTimeout(() => {
                     passwordContainer.classList.add('active');
@@ -807,15 +811,14 @@
                 createFloatingHearts();
                 
                 // --- CAMBIOS DE REPRODUCCIÓN DE MÚSICA ---
-                // Para evitar el bloqueo del navegador, la música no se reproducirá automáticamente.
+                // No reproducir automáticamente.
                 // En su lugar, indicamos al usuario que puede usar el botón de control.
-                if (!isMusicPlaying) {
+                instruction.textContent = "¡Ya puedes leer tu carta!";
+                instruction.style.animation = 'none';
+                setTimeout(() => {
                     instruction.textContent = "Toca el botón de música para reproducir";
-                    instruction.style.animation = 'none';
-                    setTimeout(() => {
-                        instruction.style.animation = 'fadeInOut 4s infinite';
-                    }, 4000);
-                }
+                    instruction.style.animation = 'fadeInOut 4s infinite';
+                }, 2000);
             }
             
             function closeLetterAnimation() {
@@ -849,7 +852,8 @@
                             // Mostrar título e instrucción
                             setTimeout(() => {
                                 titleContainer.style.animation = 'fadeInContent 1s forwards';
-                                instruction.style.animation = 'fadeInContent 1s forwards';
+                                instruction.textContent = "Toca el sobre para abrir tu carta";
+                                instruction.style.animation = 'fadeInOut 4s infinite';
                             }, 500);
                             
                         }, 500);
