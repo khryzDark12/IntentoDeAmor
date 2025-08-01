@@ -44,6 +44,14 @@
             animation: floatUp 15s linear infinite;
             opacity: 0;
             z-index: 1;
+            cursor: pointer;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .heart-particle:hover {
+            transform: scale(1.5);
+            opacity: 1;
+            animation: none;
         }
 
         .twinkle {
@@ -52,6 +60,12 @@
             border-radius: 50%;
             animation: twinkle 3s infinite;
             z-index: 1;
+            cursor: pointer;
+        }
+
+        .twinkle:hover {
+            transform: scale(1.5);
+            animation: none;
         }
 
         .glow {
@@ -85,6 +99,11 @@
             border-radius: 15px;
             box-shadow: 0 8px 32px rgba(186, 104, 200, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: transform 0.3s;
+        }
+
+        .title-container:hover {
+            transform: scale(1.02);
         }
 
         .title {
@@ -111,6 +130,11 @@
             height: 200px;
             position: relative;
             cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .envelope-container:hover {
+            transform: translateY(-5px);
         }
 
         .envelope {
@@ -132,6 +156,7 @@
             align-items: center;
             border-radius: 10px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 2px solid #000; /* Contorno negro */
         }
 
         .envelope-front {
@@ -154,6 +179,7 @@
             transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
             border-radius: 10px;
             z-index: 3;
+            border: 2px solid #000; /* Contorno negro */
         }
 
         .seal {
@@ -171,14 +197,21 @@
             box-shadow: 0 0 20px rgba(255, 213, 79, 0.6);
             z-index: 4;
             animation: sealPulse 2s infinite;
+            border: 2px solid #000; /* Contorno negro */
+            cursor: pointer;
+        }
+
+        .seal:hover {
+            transform: translate(-50%, -50%) scale(1.15);
         }
 
         .seal i {
             color: #d32f2f;
             font-size: 28px;
+            transition: transform 0.3s;
         }
 
-        /* Estilo de la carta abierta */
+        /* Estilo de la carta abierta con borde negro */
         .letter-container {
             position: relative;
             width: 280px;
@@ -201,6 +234,7 @@
             overflow: hidden;
             transform-style: preserve-3d;
             z-index: 25;
+            border: 2px solid #000; /* Contorno negro añadido */
         }
 
         .letter-content {
@@ -216,6 +250,7 @@
             font-size: 2.2rem;
             margin-bottom: 20px;
             font-weight: bold;
+            text-align: center;
         }
 
         .message-content {
@@ -227,6 +262,7 @@
             height: 230px;
             overflow-y: auto;
             padding-right: 10px;
+            padding-left: 10px;
         }
 
         .signature {
@@ -235,6 +271,7 @@
             font-weight: bold;
             color: #d32f2f;
             margin-top: 15px;
+            padding-right: 20px;
         }
 
         .letter-pattern {
@@ -265,6 +302,7 @@
             z-index: 30;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
             transition: all 0.3s;
+            border: 1px solid #000;
         }
 
         .close-letter-btn:hover {
@@ -272,9 +310,11 @@
             background: #d32f2f;
         }
 
-        /* Botón secreto */
+        /* Botón secreto reposicionado */
         .secret-button {
-            margin-top: 25px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
             background: rgba(255, 255, 255, 0.3);
             border: 2px solid #d32f2f;
             color: #d32f2f;
@@ -294,6 +334,7 @@
         .secret-button:hover {
             background: rgba(211, 47, 47, 0.2);
             transform: scale(1.05);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.2);
         }
 
         /* Sistema de contraseña */
@@ -330,6 +371,7 @@
             position: relative;
             transform: scale(0.8);
             transition: transform 0.5s ease;
+            border: 2px solid #000;
         }
 
         .password-container.active {
@@ -382,6 +424,7 @@
             transition: all 0.3s;
             font-weight: bold;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid #000;
         }
 
         .password-button:hover {
@@ -418,9 +461,9 @@
             opacity: 1;
         }
 
-        /* Reproductor de música dentro de la carta */
+        /* Reproductor de música reposicionado */
         .music-player {
-            position: absolute;
+            position: fixed;
             bottom: 20px;
             right: 20px;
             display: flex;
@@ -432,6 +475,12 @@
             z-index: 30;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(211, 47, 47, 0.3);
+            border: 2px solid #000;
+            transition: transform 0.3s;
+        }
+
+        .music-player:hover {
+            transform: scale(1.05);
         }
 
         .music-label {
@@ -452,6 +501,7 @@
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid #000;
         }
 
         .music-toggle:hover {
@@ -481,6 +531,7 @@
             border: 2px solid #d32f2f;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: all 0.3s;
+            border: 2px solid #000;
         }
 
         .love-button:hover {
@@ -511,6 +562,7 @@
             opacity: 0;
             transition: all 0.3s ease;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            border: 2px solid #000;
         }
 
         .love-message.active {
@@ -535,6 +587,14 @@
             font-size: 20px;
             opacity: 0;
             animation: floatUp 6s linear infinite;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .heart:hover {
+            transform: scale(1.5);
+            animation: none;
+            opacity: 1;
         }
 
         .flowers {
@@ -544,6 +604,12 @@
             opacity: 0.7;
             z-index: 5;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .flowers:hover {
+            transform: scale(1.3);
         }
 
         .flower-1 { top: 10%; left: 5%; animation: float 12s infinite, rotate 20s infinite; }
@@ -732,14 +798,16 @@
             }
             
             .secret-button {
+                top: 15px;
+                left: 15px;
                 font-size: 1rem;
                 padding: 8px 16px;
             }
             
             .music-player {
+                padding: 6px 12px;
                 bottom: 15px;
                 right: 15px;
-                padding: 6px 12px;
             }
             
             .music-label {
@@ -791,6 +859,14 @@
     <!-- Fondo romántico -->
     <div class="romantic-bg" id="romanticBg"></div>
     
+    <!-- Reproductor de música reposicionado -->
+    <div class="music-player" id="musicPlayer">
+        <span class="music-label">Nuestra Música</span>
+        <div class="music-toggle" id="musicToggle">
+            <i class="fas fa-play"></i>
+        </div>
+    </div>
+    
     <!-- Modal de contraseña -->
     <div class="password-modal" id="passwordModal">
         <div class="password-container" id="passwordContainer">
@@ -827,14 +903,6 @@
                     <i class="fas fa-envelope"></i>
                 </div>
                 
-                <!-- Reproductor de música -->
-                <div class="music-player" id="musicPlayer">
-                    <span class="music-label">Nuestra Música</span>
-                    <div class="music-toggle" id="musicToggle">
-                        <i class="fas fa-play"></i>
-                    </div>
-                </div>
-                
                 <div class="letter-pattern"></div>
                 <div class="letter-content">
                     <h2 class="message-title">Mi Mensaje Especial</h2>
@@ -846,6 +914,7 @@
             </div>
         </div>
         
+        <!-- Botón secreto reposicionado -->
         <button class="secret-button" id="secretButton">Una sorpresa para ti</button>
     </div>
 
@@ -881,11 +950,13 @@
             const loveButton = document.getElementById('loveButton');
             const loveMessage = document.getElementById('loveMessage');
             const typewriterText = document.getElementById('typewriterText');
+            const flowers = document.querySelectorAll('.flowers');
             
             let heartsInterval;
             const CORRECT_PASSWORD = "1517";
             let attempts = 0;
             let isMusicPlaying = false;
+            let audioContextResolved = false;
             
             // Texto para el efecto de máquina de escribir (con iconos)
             const letterText = `
@@ -899,8 +970,22 @@
             // Configuración inicial de música
             backgroundMusic.volume = 0.3;
             
+            // Solución definitiva para GitHub Pages
+            function setupAudioContext() {
+                if (audioContextResolved) return;
+                
+                // Intentar resolver el contexto de audio
+                const context = new (window.AudioContext || window.webkitAudioContext)();
+                if (context.state === 'suspended') {
+                    context.resume().then(() => {
+                        audioContextResolved = true;
+                    });
+                }
+            }
+            
             // Botón de amor
             loveButton.addEventListener('click', function() {
+                setupAudioContext();
                 loveMessage.classList.add('active');
                 
                 // Crear corazones flotantes
@@ -914,8 +999,11 @@
             
             // Control de música (con iconos de play/pause)
             musicToggle.addEventListener('click', function() {
+                setupAudioContext();
+                
                 if (isMusicPlaying) {
                     backgroundMusic.pause();
+                    isMusicPlaying = false;
                     musicToggle.innerHTML = '<i class="fas fa-play"></i>';
                 } else {
                     backgroundMusic.play().then(() => {
@@ -923,10 +1011,22 @@
                         musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
                     }).catch(error => {
                         console.log('Reproducción bloqueada:', error);
-                        // Mostrar alerta si falla
-                        alert('Haz clic en "Abrir mi carta" primero para habilitar la música');
+                        // Solución alternativa para GitHub Pages
+                        backgroundMusic.muted = true;
+                        backgroundMusic.play().then(() => {
+                            backgroundMusic.muted = false;
+                            isMusicPlaying = true;
+                            musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+                        });
                     });
                 }
+            });
+            
+            // Interacción con flores
+            flowers.forEach(flower => {
+                flower.addEventListener('click', function() {
+                    createFlowerHearts(this);
+                });
             });
             
             // Crear corazones flotantes para el botón de amor
@@ -952,6 +1052,35 @@
                             }
                         }, 6000);
                     }, i * 100);
+                }
+            }
+            
+            // Crear corazones al hacer clic en una flor
+            function createFlowerHearts(flower) {
+                const heartIcons = ['❤️', '💖', '💗', '💓', '💞', '💕'];
+                const rect = flower.getBoundingClientRect();
+                
+                for (let i = 0; i < 15; i++) {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.innerHTML = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                    heart.style.left = (rect.left + rect.width/2) + 'px';
+                    heart.style.top = (rect.top + rect.height/2) + 'px';
+                    heart.style.position = 'fixed';
+                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    heart.style.opacity = 1;
+                    heart.style.zIndex = 100;
+                    heart.style.pointerEvents = 'none';
+                    
+                    document.body.appendChild(heart);
+                    
+                    // Eliminar después de la animación
+                    setTimeout(() => {
+                        if (heart.parentNode) {
+                            heart.parentNode.removeChild(heart);
+                        }
+                    }, 5000);
                 }
             }
             
