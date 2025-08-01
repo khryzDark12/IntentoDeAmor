@@ -6,6 +6,8 @@
     <title>Carta Romántica con Música</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -294,10 +296,6 @@
             visibility: visible;
         }
 
-        .password-container.active {
-            transform: scale(1);
-        }
-
         .password-container {
             background: linear-gradient(135deg, #fff0f5, #ffe4e1);
             padding: 30px;
@@ -309,6 +307,10 @@
             position: relative;
             transform: scale(0.8);
             transition: transform 0.5s ease;
+        }
+
+        .password-container.active {
+            transform: scale(1);
         }
 
         .password-title {
@@ -784,7 +786,7 @@
                     sealIcon.classList.remove('fa-lock');
                     sealIcon.classList.add('fa-lock-open');
                     passwordInput.style.borderColor = "#4CAF50";
-                    passwordInput.style.boxShadow = "0 0 15px rgba(76, 175, 80, 0.5)";
+                    passwordInput.style.box-shadow = "0 0 15px rgba(76, 175, 80, 0.5)";
                     passwordButton.textContent = "✓ Correcto";
                     passwordButton.style.background = "linear-gradient(to right, #4CAF50, #8BC34A)";
                     passwordError.classList.remove('show');
@@ -804,7 +806,7 @@
                     
                     // Animación de error
                     passwordInput.style.borderColor = "#f44336";
-                    passwordInput.style.boxShadow = "0 0 15px rgba(244, 67, 54, 0.5)";
+                    passwordInput.style.box-shadow = "0 0 15px rgba(244, 67, 54, 0.5)";
                     passwordInput.value = "";
                     passwordError.classList.add('show');
                     
@@ -1015,7 +1017,7 @@
                 message.style.fontSize = '4rem';
                 message.style.color = '#d32f2f';
                 message.style.fontWeight = 'bold';
-                message.style.textShadow = '0 0 20px rgba(255, 255, 255, 0.8)';
+                message.style.text-shadow = '0 0 20px rgba(255, 255, 255, 0.8)';
                 message.style.zIndex = '100';
                 message.style.opacity = '0';
                 message.style.animation = 'fadeInContent 1s forwards';
