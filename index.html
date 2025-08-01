@@ -831,7 +831,7 @@
                 <div class="music-player" id="musicPlayer">
                     <span class="music-label">Nuestra Música</span>
                     <div class="music-toggle" id="musicToggle">
-                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-play"></i>
                     </div>
                 </div>
                 
@@ -887,12 +887,12 @@
             let attempts = 0;
             let isMusicPlaying = false;
             
-            // Texto para el efecto de máquina de escribir
+            // Texto para el efecto de máquina de escribir (con iconos)
             const letterText = `
-                <p>Mi querida princesa,</p>
+                <p>❤️ Mi querida princesa,</p>
                 <p>Desde que llegaste a mi vida, cada día es una aventura llena de amor y alegría. Tu sonrisa ilumina mis mañanas y tu amor calienta mis noches.</p>
-                <p>Eres la persona más increíble que he conocido, mi apoyo incondicional y mi razón para ser mejor cada día.</p>
-                <p>En esta carta quiero recordarte lo especial que eres y lo afortunado que me siento de tenerte a mi lado.</p>
+                <p>Eres la persona más increíble que he conocido, mi apoyo incondicional y mi razón para ser mejor cada día. 💖</p>
+                <p>En esta carta quiero recordarte lo especial que eres y lo afortunado que me siento de tenerte a mi lado. 💌</p>
                 <p>Con todo mi amor,</p>
             `;
             
@@ -912,21 +912,21 @@
                 }, 3000);
             });
             
-            // Control de música
+            // Control de música (con iconos de play/pause)
             musicToggle.addEventListener('click', function() {
                 if (isMusicPlaying) {
                     backgroundMusic.pause();
-                    musicToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                    musicToggle.innerHTML = '<i class="fas fa-play"></i>';
                 } else {
-                    // Solución para GitHub Pages: Iniciar reproducción con gesto del usuario
-                    backgroundMusic.play().catch(error => {
-                        console.log('Reproducción automática bloqueada:', error);
-                        // Mostrar advertencia para el usuario
-                        alert('Por favor haz clic en "Abrir mi carta" para habilitar la música');
+                    backgroundMusic.play().then(() => {
+                        isMusicPlaying = true;
+                        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+                    }).catch(error => {
+                        console.log('Reproducción bloqueada:', error);
+                        // Mostrar alerta si falla
+                        alert('Haz clic en "Abrir mi carta" primero para habilitar la música');
                     });
-                    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
                 }
-                isMusicPlaying = !isMusicPlaying;
             });
             
             // Crear corazones flotantes para el botón de amor
@@ -1146,7 +1146,7 @@
                 if (isMusicPlaying) {
                     backgroundMusic.pause();
                     isMusicPlaying = false;
-                    musicToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                    musicToggle.innerHTML = '<i class="fas fa-play"></i>';
                 }
                 
                 // Cerrar la carta
