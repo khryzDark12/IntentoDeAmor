@@ -1,269 +1,273 @@
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const closedEnvelope = document.getElementById('closedEnvelope');
-        const letterContainer = document.getElementById('letterContainer');
-        const openLetter = document.getElementById('openLetter');
-        const closeButton = document.getElementById('closeButton');
-        const heartsContainer = document.getElementById('heartsContainer');
-        const secretButton = document.getElementById('secretButton');
-        const letterContent = document.querySelector('.letter-content');
-        const titleContainer = document.querySelector('.title-container');
-        const instruction = document.querySelector('.instruction');
-        const passwordModal = document.getElementById('passwordModal');
-        const passwordContainer = document.getElementById('passwordContainer');
-        const passwordInput = document.getElementById('passwordInput');
-        const passwordButton = document.getElementById('passwordButton');
-        const passwordError = document.getElementById('passwordError');
-        const passwordHint = document.getElementById('passwordHint');
-        const sealIcon = document.querySelector('.seal i');
-        const musicControl = document.getElementById('musicControl');
-        const backgroundMusic = document.getElementById('backgroundMusic');
-        const musicControlIcon = musicControl.querySelector('i');
+<audio id="backgroundMusic" loop autoplay>
+        <source src="te_extrano.mp3" type="audio/mp3">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
 
-        let heartsInterval;
-        const CORRECT_PASSWORD = "1517";
-        let attempts = 0;
-        let isMusicPlaying = false;
-        
-        // CORRECCIÓN: Usar el nombre de archivo correcto en el elemento <audio> directamente
-        backgroundMusic.src = "te_extrano.mp3";
-        backgroundMusic.load();
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const closedEnvelope = document.getElementById('closedEnvelope');
+            const letterContainer = document.getElementById('letterContainer');
+            const openLetter = document.getElementById('openLetter');
+            const closeButton = document.getElementById('closeButton');
+            const heartsContainer = document.getElementById('heartsContainer');
+            const secretButton = document.getElementById('secretButton');
+            const letterContent = document.querySelector('.letter-content');
+            const titleContainer = document.querySelector('.title-container');
+            const instruction = document.querySelector('.instruction');
+            const passwordModal = document.getElementById('passwordModal');
+            const passwordContainer = document.getElementById('passwordContainer');
+            const passwordInput = document.getElementById('passwordInput');
+            const passwordButton = document.getElementById('passwordButton');
+            const passwordError = document.getElementById('passwordError');
+            const passwordHint = document.getElementById('passwordHint');
+            const sealIcon = document.querySelector('.seal i');
+            const musicControl = document.getElementById('musicControl');
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const musicControlIcon = musicControl.querySelector('i');
 
-        // Configuración inicial de música
-        backgroundMusic.volume = 0.3;
+            let heartsInterval;
+            const CORRECT_PASSWORD = "1517";
+            let attempts = 0;
+            let isMusicPlaying = false;
+            
+            // CORRECCIÓN: La ruta del archivo ya está en la etiqueta <audio>
+            // No es necesario modificarla aquí.
+            
+            // Configuración inicial de música
+            backgroundMusic.volume = 0.3;
 
-        // Función para reproducir o pausar la música
-        function toggleMusic() {
-            if (isMusicPlaying) {
+            // Función para reproducir o pausar la música
+            function toggleMusic() {
+                if (isMusicPlaying) {
+                    backgroundMusic.pause();
+                    isMusicPlaying = false;
+                    musicControlIcon.classList.remove('fa-volume-up');
+                    musicControlIcon.classList.add('fa-volume-mute');
+                } else {
+                    const playPromise = backgroundMusic.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            isMusicPlaying = true;
+                            musicControlIcon.classList.remove('fa-volume-mute');
+                            musicControlIcon.classList.add('fa-volume-up');
+                        }).catch(error => {
+                            // Reproducción automática bloqueada, no hacer nada aquí
+                            isMusicPlaying = false;
+                            musicControlIcon.classList.remove('fa-volume-up');
+                            musicControlIcon.classList.add('fa-volume-mute');
+                        });
+                    }
+                }
+            }
+            
+            // Control de música
+            musicControl.addEventListener('click', toggleMusic);
+
+            // Crear fondo romántico
+            createRomanticBackground();
+
+            // Abrir modal de contraseña al hacer clic en el sobre
+            closedEnvelope.addEventListener('click', function() {
+                passwordModal.classList.add('active');
+                setTimeout(() => {
+                    passwordContainer.classList.add('active');
+                    passwordInput.focus();
+                    
+                    // Resetear estado
+                    passwordInput.value = "";
+                    passwordInput.style.borderColor = "#d32f2f";
+                    passwordInput.style.boxShadow = "none";
+                    passwordButton.textContent = "Abrir mi carta";
+                    passwordButton.style.background = "linear-gradient(to right, #f44336, #e91e63)";
+                    passwordError.classList.remove('show');
+                    passwordHint.classList.remove('show');
+                }, 100);
+            });
+            
+            // Validar contraseña
+            passwordButton.addEventListener('click', validatePassword);
+            passwordInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    validatePassword();
+                }
+            });
+            
+            // Cerrar la carta
+            closeButton.addEventListener('click', closeLetterAnimation);
+            
+            // Botón secreto
+            secretButton.addEventListener('click', showExtraSurprise);
+            
+            function validatePassword() {
+                const enteredPassword = passwordInput.value;
+                
+                if (enteredPassword === CORRECT_PASSWORD) {
+                    // Animación de éxito
+                    sealIcon.classList.remove('fa-lock');
+                    sealIcon.classList.add('fa-lock-open');
+                    passwordInput.style.borderColor = "#4CAF50";
+                    passwordInput.style.boxShadow = "0 0 15px rgba(76, 175, 80, 0.5)";
+                    passwordButton.textContent = "✓ Correcto";
+                    passwordButton.style.background = "linear-gradient(to right, #4CAF50, #8BC34A)";
+                    passwordError.classList.remove('show');
+                    passwordHint.classList.remove('show');
+                    
+                    // Efecto de desbloqueo
+                    sealIcon.style.animation = "unlock 1s forwards";
+                    
+                    // Cerrar modal y abrir carta después de un breve retraso
+                    setTimeout(() => {
+                        passwordModal.classList.remove('active');
+                        passwordContainer.classList.remove('active');
+                        openLetterAnimation();
+                    }, 1500);
+                } else {
+                    attempts++;
+                    
+                    // Animación de error
+                    passwordInput.style.borderColor = "#f44336";
+                    passwordInput.style.boxShadow = "0 0 15px rgba(244, 67, 54, 0.5)";
+                    passwordInput.value = "";
+                    passwordError.classList.add('show');
+                    
+                    // Mostrar pista después de 2 intentos fallidos
+                    if (attempts >= 2) {
+                        passwordHint.classList.add('show');
+                    }
+                    
+                    // Efecto de vibración
+                    passwordContainer.style.animation = "shake 0.5s";
+                    setTimeout(() => {
+                        passwordContainer.style.animation = "";
+                    }, 500);
+                }
+            }
+            
+            function createRomanticBackground() {
+                const romanticBg = document.getElementById('romanticBg');
+                
+                // Crear partículas de corazones
+                for (let i = 0; i < 30; i++) {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-particle';
+                    heart.innerHTML = '❤';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDelay = Math.random() * 5 + 's';
+                    heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+                    romanticBg.appendChild(heart);
+                }
+                
+                // Crear luces parpadeantes
+                for (let i = 0; i < 20; i++) {
+                    const twinkle = document.createElement('div');
+                    twinkle.className = 'twinkle';
+                    twinkle.style.width = Math.random() * 5 + 2 + 'px';
+                    twinkle.style.height = twinkle.style.width;
+                    twinkle.style.left = Math.random() * 100 + 'vw';
+                    twinkle.style.top = Math.random() * 100 + 'vh';
+                    twinkle.style.animationDelay = Math.random() * 3 + 's';
+                    romanticBg.appendChild(twinkle);
+                }
+                
+                // Crear efectos de luz
+                for (let i = 0; i < 3; i++) {
+                    const glow = document.createElement('div');
+                    glow.className = 'glow';
+                    glow.style.left = Math.random() * 100 + 'vw';
+                    glow.style.top = Math.random() * 100 + 'vh';
+                    romanticBg.appendChild(glow);
+                }
+            }
+            
+            function openLetterAnimation() {
+                // Ocultar título e instrucción
+                titleContainer.style.animation = 'fadeInContent 0.8s reverse forwards';
+                instruction.style.animation = 'fadeInContent 0.8s reverse forwards';
+                
+                // Animación del sobre
+                closedEnvelope.style.transform = 'translateY(-20px) rotateY(180deg) scale(0.8)';
+                closedEnvelope.style.opacity = '0';
+                closedEnvelope.style.pointerEvents = 'none';
+                
+                // Animación de la carta
+                setTimeout(() => {
+                    letterContainer.style.height = '420px';
+                    openLetter.style.display = 'block';
+                    
+                    // Efecto de desplegar carta
+                    setTimeout(() => {
+                        openLetter.style.transform = 'rotateY(360deg)';
+                        
+                        // Mostrar contenido con efecto de escritura
+                        setTimeout(() => {
+                            letterContent.style.opacity = '1';
+                            letterContent.style.animation = 'fadeInContent 1.5s forwards';
+                            
+                            // Mostrar botón secreto
+                            setTimeout(() => {
+                                secretButton.style.opacity = '1';
+                                secretButton.style.transform = 'scale(1)';
+                            }, 2000);
+                        }, 500);
+                    }, 100);
+                }, 800);
+                
+                // Crear corazones flotantes
+                createFloatingHearts();
+                
+                // Reproducir música al abrir la carta
+                toggleMusic();
+            }
+            
+            function closeLetterAnimation() {
+                // Ocultar botón secreto
+                secretButton.style.opacity = '0';
+                secretButton.style.transform = 'scale(0.8)';
+                
+                // Ocultar contenido y carta
+                letterContent.style.opacity = '0';
+                letterContainer.style.height = '0';
+                
+                // Animación de cierre
+                setTimeout(() => {
+                    closedEnvelope.style.transform = 'translateY(0) rotateY(0) scale(1)';
+                    closedEnvelope.style.opacity = '1';
+                    closedEnvelope.style.pointerEvents = 'auto';
+                    titleContainer.style.animation = 'fadeInContent 0.8s forwards';
+                    instruction.style.animation = 'fadeInContent 0.8s forwards';
+                    openLetter.style.display = 'none';
+                    sealIcon.classList.remove('fa-lock-open');
+                    sealIcon.classList.add('fa-lock');
+                    sealIcon.style.animation = "sealPulse 2s infinite";
+                    
+                    // Detener la animación de corazones
+                    clearInterval(heartsInterval);
+                }, 800);
+                
+                // Detener la música al cerrar la carta
                 backgroundMusic.pause();
                 isMusicPlaying = false;
                 musicControlIcon.classList.remove('fa-volume-up');
                 musicControlIcon.classList.add('fa-volume-mute');
-            } else {
-                const playPromise = backgroundMusic.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        isMusicPlaying = true;
-                        musicControlIcon.classList.remove('fa-volume-mute');
-                        musicControlIcon.classList.add('fa-volume-up');
-                    }).catch(error => {
-                        // Reproducción automática bloqueada, no hacer nada aquí
-                        isMusicPlaying = false;
-                        musicControlIcon.classList.remove('fa-volume-up');
-                        musicControlIcon.classList.add('fa-volume-mute');
-                    });
-                }
-            }
-        }
-        
-        // Control de música
-        musicControl.addEventListener('click', toggleMusic);
-
-        // Crear fondo romántico
-        createRomanticBackground();
-
-        // Abrir modal de contraseña al hacer clic en el sobre
-        closedEnvelope.addEventListener('click', function() {
-            passwordModal.classList.add('active');
-            setTimeout(() => {
-                passwordContainer.classList.add('active');
-                passwordInput.focus();
-                
-                // Resetear estado
-                passwordInput.value = "";
-                passwordInput.style.borderColor = "#d32f2f";
-                passwordInput.style.boxShadow = "none";
-                passwordButton.textContent = "Abrir mi carta";
-                passwordButton.style.background = "linear-gradient(to right, #f44336, #e91e63)";
-                passwordError.classList.remove('show');
-                passwordHint.classList.remove('show');
-            }, 100);
-        });
-        
-        // Validar contraseña
-        passwordButton.addEventListener('click', validatePassword);
-        passwordInput.addEventListener('keyup', function(e) {
-            if (e.key === 'Enter') {
-                validatePassword();
-            }
-        });
-        
-        // Cerrar la carta
-        closeButton.addEventListener('click', closeLetterAnimation);
-        
-        // Botón secreto
-        secretButton.addEventListener('click', showExtraSurprise);
-        
-        function validatePassword() {
-            const enteredPassword = passwordInput.value;
-            
-            if (enteredPassword === CORRECT_PASSWORD) {
-                // Animación de éxito
-                sealIcon.classList.remove('fa-lock');
-                sealIcon.classList.add('fa-lock-open');
-                passwordInput.style.borderColor = "#4CAF50";
-                passwordInput.style.boxShadow = "0 0 15px rgba(76, 175, 80, 0.5)";
-                passwordButton.textContent = "✓ Correcto";
-                passwordButton.style.background = "linear-gradient(to right, #4CAF50, #8BC34A)";
-                passwordError.classList.remove('show');
-                passwordHint.classList.remove('show');
-                
-                // Efecto de desbloqueo
-                sealIcon.style.animation = "unlock 1s forwards";
-                
-                // Cerrar modal y abrir carta después de un breve retraso
-                setTimeout(() => {
-                    passwordModal.classList.remove('active');
-                    passwordContainer.classList.remove('active');
-                    openLetterAnimation();
-                }, 1500);
-            } else {
-                attempts++;
-                
-                // Animación de error
-                passwordInput.style.borderColor = "#f44336";
-                passwordInput.style.boxShadow = "0 0 15px rgba(244, 67, 54, 0.5)";
-                passwordInput.value = "";
-                passwordError.classList.add('show');
-                
-                // Mostrar pista después de 2 intentos fallidos
-                if (attempts >= 2) {
-                    passwordHint.classList.add('show');
-                }
-                
-                // Efecto de vibración
-                passwordContainer.style.animation = "shake 0.5s";
-                setTimeout(() => {
-                    passwordContainer.style.animation = "";
-                }, 500);
-            }
-        }
-        
-        function createRomanticBackground() {
-            const romanticBg = document.getElementById('romanticBg');
-            
-            // Crear partículas de corazones
-            for (let i = 0; i < 30; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'heart-particle';
-                heart.innerHTML = '❤';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDelay = Math.random() * 5 + 's';
-                heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
-                romanticBg.appendChild(heart);
             }
             
-            // Crear luces parpadeantes
-            for (let i = 0; i < 20; i++) {
-                const twinkle = document.createElement('div');
-                twinkle.className = 'twinkle';
-                twinkle.style.width = Math.random() * 5 + 2 + 'px';
-                twinkle.style.height = twinkle.style.width;
-                twinkle.style.left = Math.random() * 100 + 'vw';
-                twinkle.style.top = Math.random() * 100 + 'vh';
-                twinkle.style.animationDelay = Math.random() * 3 + 's';
-                romanticBg.appendChild(twinkle);
-            }
-            
-            // Crear efectos de luz
-            for (let i = 0; i < 3; i++) {
-                const glow = document.createElement('div');
-                glow.className = 'glow';
-                glow.style.left = Math.random() * 100 + 'vw';
-                glow.style.top = Math.random() * 100 + 'vh';
-                romanticBg.appendChild(glow);
-            }
-        }
-        
-        function openLetterAnimation() {
-            // Ocultar título e instrucción
-            titleContainer.style.animation = 'fadeInContent 0.8s reverse forwards';
-            instruction.style.animation = 'fadeInContent 0.8s reverse forwards';
-            
-            // Animación del sobre
-            closedEnvelope.style.transform = 'translateY(-20px) rotateY(180deg) scale(0.8)';
-            closedEnvelope.style.opacity = '0';
-            closedEnvelope.style.pointerEvents = 'none';
-            
-            // Animación de la carta
-            setTimeout(() => {
-                letterContainer.style.height = '420px';
-                openLetter.style.display = 'block';
-                
-                // Efecto de desplegar carta
-                setTimeout(() => {
-                    openLetter.style.transform = 'rotateY(360deg)';
+            function createFloatingHearts() {
+                heartsInterval = setInterval(() => {
+                    const heart = document.createElement('span');
+                    heart.innerHTML = '❤️';
+                    heart.classList.add('heart');
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+                    heartsContainer.appendChild(heart);
                     
-                    // Mostrar contenido con efecto de escritura
                     setTimeout(() => {
-                        letterContent.style.opacity = '1';
-                        letterContent.style.animation = 'fadeInContent 1.5s forwards';
-                        
-                        // Mostrar botón secreto
-                        setTimeout(() => {
-                            secretButton.style.opacity = '1';
-                            secretButton.style.transform = 'scale(1)';
-                        }, 2000);
-                    }, 500);
+                        heart.remove();
+                    }, 6000);
                 }, 100);
-            }, 800);
+            }
             
-            // Crear corazones flotantes
-            createFloatingHearts();
-            
-            // Reproducir música al abrir la carta
-            toggleMusic();
-        }
-        
-        function closeLetterAnimation() {
-            // Ocultar botón secreto
-            secretButton.style.opacity = '0';
-            secretButton.style.transform = 'scale(0.8)';
-            
-            // Ocultar contenido y carta
-            letterContent.style.opacity = '0';
-            letterContainer.style.height = '0';
-            
-            // Animación de cierre
-            setTimeout(() => {
-                closedEnvelope.style.transform = 'translateY(0) rotateY(0) scale(1)';
-                closedEnvelope.style.opacity = '1';
-                closedEnvelope.style.pointerEvents = 'auto';
-                titleContainer.style.animation = 'fadeInContent 0.8s forwards';
-                instruction.style.animation = 'fadeInContent 0.8s forwards';
-                openLetter.style.display = 'none';
-                sealIcon.classList.remove('fa-lock-open');
-                sealIcon.classList.add('fa-lock');
-                sealIcon.style.animation = "sealPulse 2s infinite";
-                
-                // Detener la animación de corazones
-                clearInterval(heartsInterval);
-            }, 800);
-            
-            // Detener la música al cerrar la carta
-            backgroundMusic.pause();
-            isMusicPlaying = false;
-            musicControlIcon.classList.remove('fa-volume-up');
-            musicControlIcon.classList.add('fa-volume-mute');
-        }
-        
-        function createFloatingHearts() {
-            heartsInterval = setInterval(() => {
-                const heart = document.createElement('span');
-                heart.innerHTML = '❤️';
-                heart.classList.add('heart');
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = Math.random() * 3 + 3 + 's';
-                heartsContainer.appendChild(heart);
-                
-                setTimeout(() => {
-                    heart.remove();
-                }, 6000);
-            }, 100);
-        }
-        
-        function showExtraSurprise() {
-            alert('¡Te quiero mucho, mi princesa! ❤️');
-        }
-    });
-</script>
+            function showExtraSurprise() {
+                alert('¡Te quiero mucho, mi princesa! ❤️');
+            }
+        });
+    </script>
