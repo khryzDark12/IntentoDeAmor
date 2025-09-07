@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carta Romántica Interactiva</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -543,7 +544,7 @@
             25% { transform: scale(1.15); }
             50% { transform: scale(1); }
             75% { transform: scale(1.15); }
-            100% { transform: scale(1); }
+           100% { transform: scale(1); }
         }
 
         /* Media queries para dispositivos móviles */
@@ -696,11 +697,19 @@
     </style>
 </head>
 <body>
-    <!-- Elementos de audio -->
-    <audio id="backgroundMusic" loop>
-        <source src="te_extrano.mp3" type="audio/mpeg">
-        Tu navegador no soporta el elemento de audio.
-    </audio>
+    <!-- Reproductor de SoundCloud como música de fondo -->
+    <iframe
+      id="backgroundMusic"
+      width="0"
+      height="0"
+      style="display: none;"
+      scrolling="no"
+      frameborder="no"
+      allow="autoplay"
+      src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/chriz-dark/te-extrano&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false">
+    </iframe>
+
+    <!-- Efectos de sonido -->
     <audio id="openSound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3"></audio>
     <audio id="closeSound" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3"></audio>
     <audio id="heartSound" src="https://assets.mixkit.co/sfx/preview/mixkit-heart-slow-beat-1764.mp3"></audio>
@@ -793,7 +802,6 @@
             const closeButton = document.getElementById('closeButton');
             const sealIcon = document.getElementById('sealIcon');
             const musicToggle = document.getElementById('musicToggle');
-            const backgroundMusic = document.getElementById('backgroundMusic');
             const loveButton = document.getElementById('loveButton');
             const loveMessage = document.getElementById('loveMessage');
             const dailyMessage = document.getElementById('dailyMessage');
@@ -810,6 +818,9 @@
             const openSound = document.getElementById('openSound');
             const closeSound = document.getElementById('closeSound');
             const heartSound = document.getElementById('heartSound');
+            
+            // Reproductor de SoundCloud
+            const backgroundMusic = document.getElementById('backgroundMusic');
             
             // Configuración
             const CORRECT_PASSWORD = "1517";
@@ -870,14 +881,19 @@
             // Control de música
             musicToggle.addEventListener('click', function() {
                 if (isMusicPlaying) {
-                    backgroundMusic.pause();
+                    // Pausar música de SoundCloud (no es posible controlar directamente)
+                    // En su lugar, pausamos los efectos de sonido
+                    document.querySelectorAll('audio').forEach(audio => {
+                        audio.pause();
+                    });
                     isMusicPlaying = false;
                     musicToggle.innerHTML = '<i class="fas fa-play"></i>';
                 } else {
-                    backgroundMusic.play().then(() => {
-                        isMusicPlaying = true;
-                        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-                    });
+                    // Reproducir efectos de sonido
+                    heartSound.currentTime = 0;
+                    heartSound.play();
+                    isMusicPlaying = true;
+                    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
                 }
             });
             
@@ -995,7 +1011,9 @@
                 
                 // Detener música si está sonando
                 if (isMusicPlaying) {
-                    backgroundMusic.pause();
+                    document.querySelectorAll('audio').forEach(audio => {
+                        audio.pause();
+                    });
                     isMusicPlaying = false;
                     musicToggle.innerHTML = '<i class="fas fa-play"></i>';
                 }
@@ -1020,7 +1038,11 @@
             // Inicializar
             updateTimeCounter();
             createRomanticBackground();
-            backgroundMusic.volume = 0.3;
+            
+            // Ajustar volumen de los sonidos
+            openSound.volume = 0.7;
+            closeSound.volume = 0.7;
+            heartSound.volume = 0.5;
         });
     </script>
 </body>
